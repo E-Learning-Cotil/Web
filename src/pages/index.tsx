@@ -8,6 +8,7 @@ export default function Home() {
       </Head>
 
       <main>
+        <img src="/assets/logo1.png" alt=""/>
         <h1>Hello E-Learning!</h1>
       </main>
     </div>
