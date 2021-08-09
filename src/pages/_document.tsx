@@ -34,8 +34,8 @@ export default class MyDocument extends Document {
       <Html lang="pt">
         <Head>
           <meta charSet="utf-8" />
+          <link rel="icon" type="image/png" href="https://cdn.discordapp.com/attachments/833778835706478682/874344219257503824/tcc-logo-white.png"/>
           <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Righteous&display=swap" rel="stylesheet" />
-          <link rel="icon" href="/favicon.ico" />
         </Head>
 
         <body>
