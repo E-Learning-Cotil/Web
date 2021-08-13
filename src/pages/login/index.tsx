@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faUserGraduate, faChalkboardTeacher, faUser, faLock } from '@fortawesome/free-solid-svg-icons'
 
-import { Header, TitleSticker, Form, RoleButton, InputBox } from './styles';
+import { Header, TitleSticker, Form, RoleButton, InputBox, LoginTitle, LoginButton, RoleSelector, FormWrapper, InputGroup } from './styles';
 
 export default function Login() {
   const [isRoleEqualsProfessor, setIsRoleEqualsProfessor] = useState(true);
@@ -34,57 +33,64 @@ export default function Login() {
         <img src="/logo_and_name.png" alt="E-Learning" />
       </TitleSticker>
   
+    <FormWrapper>
       <Form>
-        <RoleButton 
-          isSelected={!isRoleEqualsProfessor}
-          onClick={() => setIsRoleEqualsProfessor(false)}
-        >
-          <FontAwesomeIcon 
-            icon={faUserGraduate}
-            color={!isRoleEqualsProfessor ? '#fff' : '#666'}
-            size="2x"
-          />
-          <p>Sou aluno</p>
-        </RoleButton>
+        <LoginTitle>Login</LoginTitle>
+        <RoleSelector>
+            <RoleButton 
+            isSelected={!isRoleEqualsProfessor}
+            onClick={() => setIsRoleEqualsProfessor(false)}
+            >
+            <FontAwesomeIcon 
+                icon={faUserGraduate}
+                color={!isRoleEqualsProfessor ? '#fff' : '#666'}
+                size="3x"
+            />
+            <p>Sou aluno</p>
+            </RoleButton>
 
-        <RoleButton 
-          isSelected={isRoleEqualsProfessor}
-          onClick={() => setIsRoleEqualsProfessor(true)}
-        >
-          <FontAwesomeIcon 
-            icon={faChalkboardTeacher}
-            color={isRoleEqualsProfessor ? '#fff' : '#666'}
-            size="2x"
-          />
-          <p>Sou Professor</p>
-        </RoleButton>
+            <RoleButton 
+            isSelected={isRoleEqualsProfessor}
+            onClick={() => setIsRoleEqualsProfessor(true)}
+            >
+            <FontAwesomeIcon 
+                icon={faChalkboardTeacher}
+                color={isRoleEqualsProfessor ? '#fff' : '#666'}
+                size="3x"
+                />
+            <p>Sou Professor</p>
+            </RoleButton>
+        </RoleSelector>
             
-          <InputBox>
-            <p>
-              <FontAwesomeIcon 
-                icon={faUser}
-                color="#fff"
-                size="lg"
-              />
-              Usuário:
-            </p>
-            <input type="text"/>
-          </InputBox>
+          <InputGroup>
+            <InputBox>
+              <p>
+                <FontAwesomeIcon 
+                  icon={faUser}
+                  color="#fff"
+                  size="lg"
+                />
+              <span>Usuário</span>
+              </p>
+              <input type="text"/>
+            </InputBox>
 
-          <InputBox>
-            <p>
-              <FontAwesomeIcon 
-                icon={faLock}
-                color="#fff"
-                size="lg"
-              />
-              Senha:
-            </p>
-            <input type="password"/>
-          </InputBox>
+            <InputBox>
+              <p>
+                <FontAwesomeIcon 
+                  icon={faLock}
+                  color="#fff"
+                  size="lg"
+                />
+              <span>Senha</span>
+              </p>
+              <input type="password"/>
+            </InputBox>
+          </InputGroup>
 
-          <button>Entrar</button>
+          <LoginButton>Entrar</LoginButton>
       </Form>
+      </FormWrapper>
     </div>
     )
   }
