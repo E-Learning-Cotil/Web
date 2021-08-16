@@ -57,14 +57,17 @@ const RoleButton = styled("button")<RoleButtonProps>`
     background: transparent;
     border-radius: 6px;
     border: 1px solid #000;
+    font-family: ${props => props.theme.fonts.primary};
+    
     ${props => props.isSelected ? css`
         background-image: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.9));
         color: #fff;
+        cursor: default;
     ` : css`
         background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0));
         color: #666;
+        cursor: pointer;
     `}
-    font-family: ${props => props.theme.fonts.primary};
 
     p{
         margin-top: 5px;
@@ -78,7 +81,7 @@ const FormWrapper = styled.div`
     place-items: center;
 `;
 
-const Form = styled.div`
+const Form = styled.form`
     width: 20vw;
     height: 65vh;
     

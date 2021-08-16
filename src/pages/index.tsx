@@ -2,7 +2,7 @@ import Head from 'next/head'
 
 import { Header, TitleSticker, Main, Info, ImageWrapper } from './styles'
 
-export default function Home() {
+export default function Dashboard() {
   return (
     <div>
       <Head>
