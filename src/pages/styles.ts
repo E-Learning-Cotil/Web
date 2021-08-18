@@ -9,7 +9,7 @@ const Header = styled.div`
   align-items: center;
   padding-right: 10%;
 
-  a{
+  button{
     width: 90px;
     height: 40px;
     display: grid;
@@ -20,6 +20,8 @@ const Header = styled.div`
     color: ${props => props.theme.colors.light};
     font-family: ${props => props.theme.fonts.secondary};
     text-decoration: none;
+    border: none;
+    cursor: pointer;
 
     &:active{
       box-shadow: 0 2px ${props => props.theme.colors.secondaryDark};

@@ -1,8 +1,21 @@
 import Head from 'next/head'
+import Router from 'next/router';
+import { useContext } from 'react'
+import { AuthContext } from '../contexts/AuthContext'
 
 import { Header, TitleSticker, Main, Info, ImageWrapper } from './styles'
 
 export default function Dashboard() {
+  const { isAuthenticated, user } = useContext(AuthContext);
+
+  function handleGoToLogin() {
+    if(isAuthenticated){
+      Router.push(`/${user.role.toLowerCase()}/dashboard`);
+    }else{
+      Router.push('/login');
+    }
+  }
+
   return (
     <div>
       <Head>
@@ -10,7 +23,7 @@ export default function Dashboard() {
       </Head>
 
       <Header>
-        <a href="/login">Login</a>
+        <button onClick={handleGoToLogin}>Login</button>
       </Header>
 
       <TitleSticker>

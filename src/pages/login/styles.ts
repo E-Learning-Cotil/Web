@@ -102,8 +102,10 @@ const LoginTitle = styled.p`
 `;
 
 const LoginButton = styled.button`
-    border: 0;
-    border-radius: 6px;
+    display: grid;
+    place-items: center;
+    border: none;
+    border-radius: 4px;
 
     width: 100%;
     height: 35px;
@@ -111,10 +113,16 @@ const LoginButton = styled.button`
     background: ${props => props.theme.colors.secondaryMedium};
     color: ${props => props.theme.colors.light};
     
-    font-size: 20px;
-    font-family: ${props => props.theme.fonts.primary};
+    font-size: 16px;
+    font-family: ${props => props.theme.fonts.secondary};
     text-decoration: none;
     cursor: pointer;
+    box-shadow: 0 4px ${props => props.theme.colors.secondaryDark};
+
+    &:active{
+      box-shadow: 0 2px ${props => props.theme.colors.secondaryDark};
+      transform: translateY(2px);
+    }
 `;
 
 const RoleSelector = styled.div`

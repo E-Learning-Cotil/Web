@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ToastContainer, toast } from 'react-toastify';
+import Loading from 'react-loading';
 
 import { faArrowLeft, faUserGraduate, faChalkboardTeacher, faUser, faLock } from '@fortawesome/free-solid-svg-icons'
 
@@ -29,15 +30,20 @@ export default function Login() {
   const { register, handleSubmit } = useForm();
 
   const [isRoleEqualsProfessor, setIsRoleEqualsProfessor] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
   async function handleSignIn({email, password}){
+    setIsLoading(true);
+
     const { status, message } = await signIn({
       email,
       password,
       role: isRoleEqualsProfessor ? 'PROFESSOR' : 'ALUNO'
     });
+
+    setIsLoading(false);
 
     let type;
     switch(true){
@@ -168,7 +174,11 @@ export default function Login() {
           <LoginButton
             type="submit"
           >
-            Entrar
+            {isLoading ? (
+              <Loading type={'spinningBubbles'} color={'#fff'}  height={'20px'} width={'20px'} />
+            ) : (
+              <p>Entrar</p>
+            )}
           </LoginButton>
       </Form>
       </FormWrapper>

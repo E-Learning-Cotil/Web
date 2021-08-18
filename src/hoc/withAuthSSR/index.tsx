@@ -17,3 +17,19 @@ export default function withAuthSSR(gssp: GetServerSideProps) {
         return await gssp(context);
     }
 }
+
+//  ---- EXEMPLO HOC SSR ---- 
+// export const getServerSideProps: GetServerSideProps = withAuthSSR(
+//     async (ctx) => {
+//         const email = "edu@gmail.com";
+
+//         //Fetch the data
+//         // const apiClient = getAPIClient();
+
+//         return {
+//             props: {
+//                 email
+//             }
+//         }
+//     }
+// );
