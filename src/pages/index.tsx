@@ -1,20 +1,13 @@
 import Head from 'next/head'
-import Router from 'next/router';
+import Link from 'next/link';
 import { useContext } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
+import Loading from 'react-loading';
 
 import { Header, TitleSticker, Main, Info, ImageWrapper } from './styles'
 
 export default function Dashboard() {
-  const { isAuthenticated, user } = useContext(AuthContext);
-
-  function handleGoToLogin() {
-    if(isAuthenticated){
-      Router.push(`/${user.role.toLowerCase()}/dashboard`);
-    }else{
-      Router.push('/login');
-    }
-  }
+  const { isAuthenticated, user, isLoading } = useContext(AuthContext);
 
   return (
     <div>
@@ -23,7 +16,27 @@ export default function Dashboard() {
       </Head>
 
       <Header>
-        <button onClick={handleGoToLogin}>Login</button>
+        {isLoading ? (
+          <Link href="#">
+            <a>
+              <Loading type={'spinningBubbles'} color={'#fff'}  height={'20px'} width={'20px'} />
+            </a>
+          </Link>
+        ) : isAuthenticated ? (
+          <Link href={`/${user.role.toLowerCase()}/dashboard`}>
+            <a>
+              <p>{user.nome}</p>
+              <img src={user.foto} alt={user.nome} width="20px" height="20px"/>
+            </a>
+          </Link>
+        ) : (
+          <Link href="/login">
+            <a>
+              Login
+            </a>
+          </Link>
+        )
+        }
       </Header>
 
       <TitleSticker>

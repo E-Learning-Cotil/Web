@@ -26,6 +26,7 @@ interface AuthResponse{
 
 interface AuthContextProps {
     isAuthenticated: boolean;
+    isLoading: boolean;
     user: UserProps;
     signIn: (data: AuthData) => Promise<AuthResponse>;
     signOut: () => void;
@@ -35,11 +36,13 @@ const AuthContext = createContext({} as AuthContextProps);
 
 function AuthProvider({children}){
     const [user, setUser] = useState<UserProps | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const isAuthenticated = !!user;
 
     useEffect(() => {
         (async () => {
+            setIsLoading(true);
             const { 'elearning.token': token } = parseCookies();
     
             if(token){
@@ -47,6 +50,7 @@ function AuthProvider({children}){
     
                 setUser(data);
             }
+            setIsLoading(false);
         })()
     }, [])
 
@@ -88,7 +92,7 @@ function AuthProvider({children}){
     }
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, signIn, user, signOut }}>
+        <AuthContext.Provider value={{ isAuthenticated, signIn, user, signOut, isLoading }}>
             {children}
         </AuthContext.Provider>
     )

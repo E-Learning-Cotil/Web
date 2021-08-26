@@ -9,7 +9,7 @@ const Header = styled.div`
   align-items: center;
   padding-right: 10%;
 
-  button{
+  a{
     width: 90px;
     height: 40px;
     display: grid;
