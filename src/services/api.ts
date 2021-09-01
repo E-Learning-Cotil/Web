@@ -5,7 +5,7 @@ function getAPIClient(ctx?: any){
     const { 'elearning.token': token } = parseCookies(ctx);
     
     const api = axios.create({
-        baseURL: 'http://localhost:3334'
+        baseURL: process.env.API_URL
     });
     
     if(token){

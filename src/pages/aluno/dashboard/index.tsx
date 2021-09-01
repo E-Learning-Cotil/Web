@@ -1,21 +1,27 @@
 import React, { useEffect, useState } from "react"
+import Head from "next/head";
 import Link from 'next/link';
 
-import withAuthSSG from "../../../hoc/withAuthSSG";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faList, faBook, faCommentAlt, faScroll } from '@fortawesome/free-solid-svg-icons';
 
+import withAuthSSG from "../../../hoc/withAuthSSG";
 import Header from "../../../components/Header";
 import ShimmerEffect from "../../../components/ShimmerEffect";
 import { useFetch } from "../../../hooks/useFetch";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faList, faBook, faCommentAlt, faScroll } from '@fortawesome/free-solid-svg-icons'
-
-import { Navigation, NavLink, Activities, ActivitiesTitle, ActivitiesGroup } from "./styles";
+import Activity from "../../../components/Activity";
+import { Navigation, NavLink, Container, Title, ActivitiesGroup } from "./styles";
+import ActivitySkeleton from "../../../components/ActivitySkeleton";
 
 export function Dashboard(props) {
     const { data } = useFetch('/pagina-inicial');
 
     return (
         <div>
+            <Head>
+                <title>Dashboard | E-Learning</title>
+            </Head>
+
             <Header />
 
             <Navigation>
@@ -64,39 +70,39 @@ export function Dashboard(props) {
                 </Link>
             </Navigation>
 
-            <Activities>
-                <ActivitiesTitle>
+            <Container>
+                <Title>
                     <h2>Atividades</h2>
                     <div></div> {/* Title tip */}
-                </ActivitiesTitle>
+                </Title>
 
                 <ActivitiesGroup>
-                    
+                    {!data ? (
+                        <>
+                            <ActivitySkeleton />
+                            <ActivitySkeleton />
+                            <ActivitySkeleton />
+                            <ActivitySkeleton />
+                            <ActivitySkeleton />
+                            <ActivitySkeleton />
+                        </>
+                    ) : (
+                        data.atividades.map((ativ, index) => ( 
+                                <Activity 
+                                    key={index}
+                                    id={ativ.id}
+                                    photo={ativ.tipo === "ATIVIDADE" ? ativ.topico.turma.icone.link : ativ.topicos.turma.icone.link}
+                                    name={ativ.nome}
+                                    date={ativ.dataFim}
+                                    color={ativ.tipo === "ATIVIDADE" ? ativ.topico.turma.cores.corPrim : ativ.topicos.turma.cores.corPrim}
+                                />
+                            )
+                        )
+                    ) }
                 </ActivitiesGroup>
-            </Activities>
+            </Container>
 
-            {!data ? (
-                <div>
-                    <ShimmerEffect 
-                        width="200px"
-                        height="20px"
-                    /> 
-                    <br />
-                </div>
-            ) : (
-                <div>
-                    {data.atividades.map((ativ, index) => ( <p key={index}>{ativ.nome}</p> ))}
-
-                    {data.turmas.map((turma, index) => ( <p key={index}>{turma.nome}</p> ))}
-                </div>
-            )}
-
-            <br />
-
-            <Link href="/">
-                <a>VOLTAR</a>
-            </Link>
-
+            {data?.turmas.map((turma, index) => ( <p key={index}>{turma.nome}</p> ))}
         </div>
     )
 }
