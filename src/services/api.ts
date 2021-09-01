@@ -5,7 +5,7 @@ function getAPIClient(ctx?: any){
     const { 'elearning.token': token } = parseCookies(ctx);
     
     const api = axios.create({
-        baseURL: process.env.API_URL
+        baseURL: 'https://elearning-tcc.herokuapp.com/'
     });
     
     if(token){

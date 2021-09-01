@@ -8,8 +8,8 @@ interface ShimmerDivProps{
 const ShimmerDiv = styled("div")<ShimmerDivProps>`
     width: ${props => props.width};
     height: ${props => props.height};
-    background: #3D3D3D;
-    background-image: linear-gradient(to right, #3D3D3D 0%, #555 20%, #3D3D3D 40%, #3D3D3D 100%);
+    background: #4D4D4D;
+    background-image: linear-gradient(to right, #4D4D4D 0%, #555 20%, #4D4D4D 40%, #4D4D4D 100%);
     background-repeat: no-repeat;
     background-size: 800px 104px; 
     display: inline-block;
