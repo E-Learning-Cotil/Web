@@ -28,7 +28,7 @@ const NavLink = styled.a`
 
 const Container = styled.div`
     width: 80%;
-    margin: 30px 10% 0 10%;
+    margin: 30px 10% 30px 10%;
 `;
 
 const Title = styled.div`
@@ -45,9 +45,8 @@ const Title = styled.div`
     }
 `;
 
-const ActivitiesGroup = styled.div`
+const Group = styled.div`
     width: 100%;
-    height: 100px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
@@ -59,5 +58,5 @@ export {
     NavLink,
     Container,
     Title,
-    ActivitiesGroup
+    Group
 };

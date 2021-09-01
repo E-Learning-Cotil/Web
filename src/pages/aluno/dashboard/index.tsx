@@ -7,11 +7,12 @@ import { faList, faBook, faCommentAlt, faScroll } from '@fortawesome/free-solid-
 
 import withAuthSSG from "../../../hoc/withAuthSSG";
 import Header from "../../../components/Header";
-import ShimmerEffect from "../../../components/ShimmerEffect";
 import { useFetch } from "../../../hooks/useFetch";
 import Activity from "../../../components/Activity";
-import { Navigation, NavLink, Container, Title, ActivitiesGroup } from "./styles";
+import { Navigation, NavLink, Container, Title, Group } from "./styles";
 import ActivitySkeleton from "../../../components/ActivitySkeleton";
+import ClassSkeleton from "../../../components/ClassSkeleton";
+import Class from "../../../components/Class";
 
 export function Dashboard(props) {
     const { data } = useFetch('/pagina-inicial');
@@ -76,7 +77,7 @@ export function Dashboard(props) {
                     <div></div> {/* Title tip */}
                 </Title>
 
-                <ActivitiesGroup>
+                <Group>
                     {!data ? (
                         <>
                             <ActivitySkeleton />
@@ -99,10 +100,42 @@ export function Dashboard(props) {
                             )
                         )
                     ) }
-                </ActivitiesGroup>
+                </Group>
             </Container>
 
-            {data?.turmas.map((turma, index) => ( <p key={index}>{turma.nome}</p> ))}
+            <Container>
+                <Title>
+                    <h2>Turmas</h2>
+                    <div></div> {/* Title tip */}
+                </Title>
+
+                <Group>
+                    {!data ? (
+                        <>
+                            <ClassSkeleton />
+                            <ClassSkeleton />
+                            <ClassSkeleton />
+                            <ClassSkeleton />
+                            <ClassSkeleton />
+                            <ClassSkeleton />
+                        </>
+                    ) : (
+                        data.turmas.map((turma, index) =>{
+                            console.log(turma);
+                            return ( 
+                                <Class
+                                    key={index}
+                                    id={turma.id}
+                                    name={turma.nome}
+                                    color={turma.cores.corPrim}
+                                    photo={turma.icone.link}
+                                    teacher={turma.professor.nome}
+                                />
+                            )
+                        })
+                    ) }
+                </Group>
+            </Container>
         </div>
     )
 }
