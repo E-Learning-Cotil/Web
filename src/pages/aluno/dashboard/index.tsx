@@ -59,7 +59,7 @@ export function Dashboard(props) {
                     </NavLink>
                 </Link>
 
-                <Link href="/">
+                <Link href="/aluno/conversas">
                     <NavLink>
                         <FontAwesomeIcon 
                             icon={faCommentAlt}

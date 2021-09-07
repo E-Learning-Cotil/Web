@@ -7,13 +7,14 @@ import Loading from "react-loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from '@fortawesome/free-solid-svg-icons'
 
+import withAuthSSG from "../../../hoc/withAuthSSG";
 import Header from "../../../components/Header"
 import TableSkeleton from "../../../components/TableSkeleton";
 import { api } from "../../../services/api";
 
 import { Container, Head, Table, CaptionGroup, CaptionColor } from './styles';
 
-export default function Boletim(){
+function Boletim(){
     const [pdf, setPdf] = useState<string | null>(null);
     const [isGenerating, setIsGenerating] = useState<Boolean>(false);
 
@@ -119,3 +120,5 @@ export default function Boletim(){
         </div>
     )
 }
+
+export default withAuthSSG(Boletim);
