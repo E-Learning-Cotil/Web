@@ -48,7 +48,7 @@ export function Dashboard(props) {
                     </NavLink>
                 </Link>
 
-                <Link href="/">
+                <Link href="/aluno/boletim">
                     <NavLink>
                         <FontAwesomeIcon 
                             icon={faScroll}
