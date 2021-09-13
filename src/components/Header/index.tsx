@@ -11,10 +11,12 @@ export default function Header(){
 
     return (
         <Wrapper>
-            <Trapezoid>
-                <div></div> 
-                <img src="/logo_and_name.png" alt="" />
-            </Trapezoid>        
+            <Link href="/aluno/dashboard">
+                <Trapezoid>
+                    <div></div> 
+                    <img src="/logo_and_name.png" alt="" />
+                </Trapezoid>    
+            </Link>    
 
             <ProfileButton>
                 <ProfilePic src={user?.foto} alt={user?.nome} hasBorder onClick={() => setIsProfileOpenned(!isProfileOpenned)}/>

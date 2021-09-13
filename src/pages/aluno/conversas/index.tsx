@@ -1,4 +1,8 @@
+import { useState, useContext } from 'react';
 import Head from "next/head";
+
+import { io } from "socket.io-client";
+import { useForm } from 'react-hook-form';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
@@ -9,10 +13,54 @@ import Header from "../../../components/Header";
 import Contact from "../../../components/Contact";
 import Message from "../../../components/Message";
 
-import { Container, Title, Chat, Contacts, Messages, MessagesBox, InputBox } from "./styles";
+import { Container, Title, ChatDiv, Contacts, Messages, MessagesBox, InputBox } from "./styles";
+import { useEffect } from "react";
+import { Chat } from "../../../services/socketio";
+
+import { parseCookies } from "nookies";
+import { AuthContext } from '../../../contexts/AuthContext';
+
+const socket = io("https://elearning-tcc.herokuapp.com/");
+const { 'elearning.token': token } = parseCookies();
 
 export function Conversas() {
-    const { data } = useFetch('/pagina-inicial');
+    const { user } = useContext(AuthContext);
+
+    const [conversations, setConversations] = useState([]);
+    const [messages, setMessages] = useState([]);
+    const [selected, setSelected] = useState(null);
+    
+    const { register, getValues } = useForm();
+
+    useEffect(() => {
+        socket.on("conversations", setConversations);
+        socket.on("previous_messages", setMessages);
+        socket.emit("identify", { token });
+    }, [])
+
+    useEffect(() => {
+        socket.on("new_message", ([data]) => {
+            setMessages([...messages, data])
+
+            const updatedContacts = conversations.map(contact => {
+                if(contact.rgProfessor === selected) contact.mensagem = data.mensagem;
+
+                return contact;
+            })
+
+            setConversations(updatedContacts);
+        });
+    }, [messages])
+
+    useEffect(() => {
+        socket.emit("open_chat", {otherUser: selected, token});
+    }, [selected])
+
+    function sendNewMessage(){
+        const {message} = getValues();
+
+        socket.emit("new_message", {message, otherUser: selected, token});
+    }
 
     return (
         <div>
@@ -27,130 +75,54 @@ export function Conversas() {
                     <h1>Conversas</h1>
                 </Title>
 
-                <Chat>
+                <ChatDiv>
                     <Contacts>
-                        <Contact 
-                            name={"José"}
-                            img={"https://i.imgur.com/5hT8bpz.jpg"}
-                            lastMsg={"Eae professor"}
-                            newMsgs={5}
-                            isSelected={false}
-                        />
-                        <Contact 
-                            name={"José"}
-                            img={"https://i.imgur.com/5hT8bpz.jpg"}
-                            lastMsg={"Eae professor"}
-                            newMsgs={5}
-                            isSelected={false}
-                        />
-                        <Contact 
-                            name={"José"}
-                            img={"https://i.imgur.com/5hT8bpz.jpg"}
-                            lastMsg={"Eae professor"}
-                            newMsgs={5}
-                            isSelected={false}
-                        />
-                        <Contact 
-                            name={"José"}
-                            img={"https://i.imgur.com/5hT8bpz.jpg"}
-                            lastMsg={"Eae professor"}
-                            newMsgs={5}
-                            isSelected={false}
-                        />
-                        <Contact 
-                            name={"José"}
-                            img={"https://i.imgur.com/5hT8bpz.jpg"}
-                            lastMsg={"Eae professor"}
-                            newMsgs={5}
-                            isSelected={false}
-                        />
-                        <Contact 
-                            name={"José"}
-                            img={"https://i.imgur.com/5hT8bpz.jpg"}
-                            lastMsg={"Eae professor"}
-                            newMsgs={5}
-                            isSelected={false}
-                        />
-                        <Contact 
-                            name={"José"}
-                            img={"https://i.imgur.com/5hT8bpz.jpg"}
-                            lastMsg={"Eae professor"}
-                            newMsgs={5}
-                            isSelected={false}
-                        />
-                        <Contact 
-                            name={"José"}
-                            img={"https://i.imgur.com/5hT8bpz.jpg"}
-                            lastMsg={"Eae professor"}
-                            newMsgs={5}
-                            isSelected={false}
-                        />
-                        <Contact 
-                            name={"José"}
-                            img={"https://i.imgur.com/5hT8bpz.jpg"}
-                            lastMsg={"Eae professor"}
-                            newMsgs={5}
-                            isSelected={false}
-                        />
-                        <Contact 
-                            name={"José"}
-                            img={"https://i.imgur.com/5hT8bpz.jpg"}
-                            lastMsg={"Eae professor"}
-                            newMsgs={5}
-                            isSelected={false}
-                        />
+                        {conversations.map(contact => (
+                            <Contact 
+                                key={contact.rgProfessor}
+                                id={contact.rgProfessor}
+                                name={contact.professor.nome}
+                                img={contact.professor.foto}
+                                lastMsg={contact.mensagem}
+                                newMsgs={0}
+                                setAsSelected={setSelected}
+                                selectedId={selected}
+                            />
+                        ))}
                     </Contacts>
                     <MessagesBox>
-                        <Messages>
-                            <Message 
-                                msg={"Eae professor!"}
-                                isMine={true}
-                            />
-                            <Message 
-                                msg={"Eae aluno!"}
-                                isMine={false}
-                            />
-                            <Message 
-                                msg={"Eae professor!"}
-                                isMine={true}
-                            />
-                            <Message 
-                                msg={"Eae aluno!"}
-                                isMine={false}
-                            />
-                            <Message 
-                                msg={"Eae professor!"}
-                                isMine={true}
-                            />
-                            <Message 
-                                msg={"Eae aluno!"}
-                                isMine={false}
-                            />
-                            <Message 
-                                msg={"Eae aluno!"}
-                                isMine={false}
-                            />
-                            <Message 
-                                msg={"Eae professor!"}
-                                isMine={true}
-                            />
-                            <Message 
-                                msg={"Eae aluno!"}
-                                isMine={false}
-                            />
-                        </Messages>
-                        <InputBox>
-                            <input type="text" placeholder="Digite aqui sua mensagem..."/>
-                            <button>
-                                <FontAwesomeIcon
-                                    icon={faPaperPlane}
-                                    color="#4AED64"
-                                    size="lg"
-                                />
-                            </button>
-                        </InputBox>
+                        {selected === null ? (
+                            <p>Selecione uma conversa</p>
+                        ) : (
+                            <>
+                                <Messages>
+                                    {messages.map((msg, index)=> (
+                                        <Message 
+                                            key={index}
+                                            msg={msg.mensagem}
+                                            isMine={user.role === msg.origem}
+                                        />
+                                    ))}
+                                </Messages>
+                                <InputBox>
+                                    <input 
+                                        type="text" 
+                                        placeholder="Digite aqui sua mensagem..."
+                                        {...register('message')}
+                                        name="message"
+                                    />
+                                    <button onClick={() => sendNewMessage()}>
+                                        <FontAwesomeIcon
+                                            icon={faPaperPlane}
+                                            color="#4AED64"
+                                            size="lg"
+                                        />
+                                    </button>
+                                </InputBox>
+                            </>
+                        )}
                     </MessagesBox>
-                </Chat>
+                </ChatDiv>
             </Container>
         </div>
     )

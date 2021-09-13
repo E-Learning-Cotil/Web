@@ -26,7 +26,7 @@ export function Dashboard(props) {
             <Header />
 
             <Navigation>
-                <Link href="/">
+                <Link href="/aluno/atividades">
                     <NavLink>
                         <FontAwesomeIcon 
                             icon={faList}
@@ -37,7 +37,7 @@ export function Dashboard(props) {
                     </NavLink>
                 </Link>
 
-                <Link href="/">
+                <Link href="/aluno/turmas">
                     <NavLink>
                         <FontAwesomeIcon 
                             icon={faBook}

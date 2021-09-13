@@ -16,13 +16,17 @@ const Container = styled("div")<ContainerProps>`
     cursor: pointer;
 
     ${props => props.isSelected ? css`
-        background: ${props => props.theme.colors.mediumDark};
+        background: ${props => props.theme.colors.primaryDark};
     ` : css`
         background: #161616;
     `}
 
     &:last-child{
         border-bottom: none;
+    }
+
+    &:hover{
+        background: ${props => props.theme.colors.primaryMedium};
     }
 
     img{
@@ -43,6 +47,12 @@ const Container = styled("div")<ContainerProps>`
 
         p{
             font-family: ${props => props.theme.fonts.primary};
+
+            i{
+                font-size: 14px;
+                color: ${props => props.theme.colors.light};
+                opacity: 0.7;
+            }
         }
     }
 

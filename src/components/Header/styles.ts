@@ -14,6 +14,7 @@ const Trapezoid = styled.div`
     margin-left: calc(10% + 25px);
     width: 200px;
     height: 80px;
+    cursor: pointer;
 
     div {
         width: 400px;

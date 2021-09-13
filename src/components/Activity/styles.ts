@@ -42,12 +42,20 @@ const ActivityName = styled("div")<ActivityNameProps>`
     }
 `;
 
-const ActivityDate = styled.div`
+interface ActivityDateColorProps {
+    color: string;
+}
+
+const ActivityDate = styled("div")<ActivityDateColorProps>`
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     justify-content: space-between;
+
+    p{
+        color: ${props => props.color};
+    }
 `;
 
 export {

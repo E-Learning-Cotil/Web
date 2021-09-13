@@ -12,7 +12,7 @@ const Title = styled.div`
     }
 `;
 
-const Chat = styled.div`
+const ChatDiv = styled.div`
     margin-top: 30px;
     width: 100%;
     height: calc(100vh - 280px);
@@ -86,7 +86,7 @@ const InputBox = styled.div`
 export {
     Container,
     Title,
-    Chat,
+    ChatDiv,
     Contacts,
     MessagesBox,
     Messages,
