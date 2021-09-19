@@ -55,7 +55,7 @@ export default function Activity({photo, name, date, id, color}){
             else if(((convertedData.day == dateTime.day) && (convertedData.month == dateTime.month) && (convertedData.year == dateTime.year)) && ((convertedData.hours < dateTime.hours) || ((convertedData.hours == dateTime.hours) && (convertedData.minutes <= dateTime.minutes)))){
                 setDateColor("red");
             }
-			else if(convertedData.day > dateTime.day){
+			else if((convertedData.day > dateTime.day) || (convertedData.month > dateTime.month)){
 				setDateColor("green");
 			}
             else if(convertedData.day < dateTime.day){
