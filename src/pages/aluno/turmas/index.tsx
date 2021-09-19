@@ -8,8 +8,9 @@ import Activity from "../../../components/Activity";
 import { useFetch } from "../../../hooks/useFetch";
 
 function Turmas(){
-    const { data } = useFetch('/turmas');
+    const { data } = useFetch('/turmas/list-by-role');
     console.log(data);
+
     return(
         <div>
             <Header/>
@@ -30,7 +31,7 @@ function Turmas(){
                             <ClassSkeleton />
                         </>
                     ) : (
-                        data.turmas.map((turma, index) =>{
+                        data.map((turma, index) =>{
                             console.log(turma);
                             return ( 
                                 <Class
@@ -39,7 +40,7 @@ function Turmas(){
                                     name={turma.nome}
                                     color={turma.cores.corPrim}
                                     photo={turma.icone.link}
-                                    teacher={turma.professor.nome}
+                                    teacher={turma.rgProfessor}
                                 />
                             )
                         })
