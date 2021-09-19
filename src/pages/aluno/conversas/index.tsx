@@ -3,11 +3,12 @@ import Head from "next/head";
 
 import { io } from "socket.io-client";
 import { useForm } from 'react-hook-form';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
-import { useFetch } from "../../../hooks/useFetch";
 import withAuthSSG from "../../../hoc/withAuthSSG";
 import Header from "../../../components/Header";
 import Contact from "../../../components/Contact";
@@ -15,11 +16,11 @@ import Message from "../../../components/Message";
 
 import { Container, Title, ChatDiv, Contacts, Messages, MessagesBox, InputBox } from "./styles";
 import { useEffect } from "react";
-import { Chat } from "../../../services/socketio";
 
 import { parseCookies } from "nookies";
 import { AuthContext } from '../../../contexts/AuthContext';
 
+//const socket = io("http://localhost:3334");
 const socket = io("https://elearning-tcc.herokuapp.com/");
 const { 'elearning.token': token } = parseCookies();
 
@@ -40,13 +41,29 @@ export function Conversas() {
 
     useEffect(() => {
         socket.on("new_message", ([data]) => {
-            setMessages([...messages, data])
-
+            console.log(data);
+            
             const updatedContacts = conversations.map(contact => {
-                if(contact.rgProfessor === selected) contact.mensagem = data.mensagem;
+                console.log(contact);
+                if(contact.rgProfessor === selected) {
+                    contact.mensagem = data.mensagem;
+                    setMessages([...messages, data]);
+                }else{
+                    toast.success(`${contact.professor.nome}: ${data.mensagem}`, {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                }
 
                 return contact;
             })
+
+            console.log(updatedContacts);
 
             setConversations(updatedContacts);
         });
@@ -124,6 +141,8 @@ export function Conversas() {
                     </MessagesBox>
                 </ChatDiv>
             </Container>
+
+            <ToastContainer />
         </div>
     )
 }
