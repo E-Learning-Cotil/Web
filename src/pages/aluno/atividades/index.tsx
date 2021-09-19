@@ -5,11 +5,15 @@ import ActivitySkeleton from "../../../components/ActivitySkeleton";
 import { Container, Title, Group } from "./styles";
 import Activity from "../../../components/Activity";
 import { useFetch } from "../../../hooks/useFetch";
+import Head from "next/head";
 
 function Atividades(){
     const { data } = useFetch('/atividades');
     return(
         <div>
+            <Head>
+                <title>Atividades</title>
+            </Head>
             <Header/>
             <Container>
                 <Title>

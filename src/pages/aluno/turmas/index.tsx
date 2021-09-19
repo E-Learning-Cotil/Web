@@ -6,6 +6,7 @@ import { Container, Title, Group } from "./styles";
 import Class from "../../../components/Class";
 import Activity from "../../../components/Activity";
 import { useFetch } from "../../../hooks/useFetch";
+import Head from "next/head";
 
 function Turmas(){
     const { data } = useFetch('/turmas/list-by-role');
@@ -13,6 +14,10 @@ function Turmas(){
 
     return(
         <div>
+            <Head>
+                <title>Turmas</title>
+            </Head>
+            
             <Header/>
             <Container>
                 <Title>
