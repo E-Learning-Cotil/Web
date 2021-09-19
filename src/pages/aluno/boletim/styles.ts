@@ -5,7 +5,7 @@ const Container = styled.div`
     margin: 30px 10% 30px 10%;
 `;
 
-const Head = styled.div`
+const TitleHeader = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -79,7 +79,7 @@ const CaptionColor = styled('div')<CaptionColorProps>`
 
 export {
     Container,
-    Head,
+    TitleHeader,
     Table,
     CaptionGroup,
     CaptionColor

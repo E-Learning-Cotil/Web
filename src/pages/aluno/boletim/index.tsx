@@ -11,8 +11,9 @@ import withAuthSSG from "../../../hoc/withAuthSSG";
 import Header from "../../../components/Header"
 import TableSkeleton from "../../../components/TableSkeleton";
 import { api } from "../../../services/api";
+import Head from "next/head";
 
-import { Container, Head, Table, CaptionGroup, CaptionColor } from './styles';
+import { Container, TitleHeader, Table, CaptionGroup, CaptionColor } from './styles';
 
 function Boletim(){
     const [pdf, setPdf] = useState<string | null>(null);
@@ -45,10 +46,13 @@ function Boletim(){
 
     return (
         <div>
+            <Head>
+                <title>Boletim</title>
+            </Head>
             <Header />
 
             <Container>
-                <Head>
+                <TitleHeader>
                     <h1>Boletim</h1>
                     {pdf ? (
                         <a href={pdf} target="_blank">
@@ -64,7 +68,7 @@ function Boletim(){
                     ) : (
                         <button onClick={generateBoletim}>Gerar boletim</button>
                     )}
-                </Head>
+                </TitleHeader>
 
                 {!boletim ? (
                     <TableSkeleton />
