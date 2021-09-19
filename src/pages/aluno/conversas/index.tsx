@@ -37,40 +37,34 @@ export function Conversas() {
         socket.on("conversations", setConversations);
         socket.on("previous_messages", setMessages);
         socket.emit("identify", { token });
+        
     }, [])
 
     useEffect(() => {
         socket.on("new_message", ([data]) => {
-            console.log(data);
-            
-            const updatedContacts = conversations.map(contact => {
-                console.log(contact);
-                if(contact.rgProfessor === selected) {
-                    contact.mensagem = data.mensagem;
-                    setMessages([...messages, data]);
-                }else{
-                    toast.success(`${contact.professor.nome}: ${data.mensagem}`, {
-                        position: "top-right",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                    });
-                }
-
-                return contact;
-            })
-
-            console.log(updatedContacts);
-
-            setConversations(updatedContacts);
+            console.log("Called");
+            setMessages([...messages, data]);
+            //updateConversations(data);
         });
     }, [messages])
 
+    function updateConversations(data){
+        const updatedContacts = conversations.map(contact => {
+            if(contact.rgProfessor === selected) {
+                contact.mensagem = data.mensagem;
+                contact.data = data.data;
+            }
+
+            return contact;
+        })
+
+        setConversations(updatedContacts);
+    }
+
+
     useEffect(() => {
         socket.emit("open_chat", {otherUser: selected, token});
+        console.log(selected);
     }, [selected])
 
     function sendNewMessage(){
