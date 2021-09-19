@@ -9,8 +9,8 @@ const dateNow = new Date();
 
 export default function Activity({photo, name, date, id, color}){
 	const [dateTime, setDateTime] = useState({
-		day: dateNow.getDay(),
-		month: dateNow.getMonth(),
+		day: dateNow.getDate(),
+		month: dateNow.getMonth() + 1,
 		year: dateNow.getFullYear(),
 		hours: dateNow.getHours(),
 		minutes: dateNow.getMinutes(),
@@ -18,8 +18,8 @@ export default function Activity({photo, name, date, id, color}){
 	});
 
 	const [convertedData,setConvertedData] = useState({
-		day: new Date(date).getDay(),
-		month: new Date(date).getMonth(),
+		day: new Date(date).getDate(),
+		month: new Date(date).getMonth() + 1,
 		year: new Date(date).getFullYear(),
 		hours: new Date(date).getHours(),
 		minutes:  new Date(date).getMinutes()
@@ -31,27 +31,37 @@ export default function Activity({photo, name, date, id, color}){
 		const timer = setInterval(() => {
 			const dateNow = new Date();
 			setDateTime({
-				day: dateNow.getDay(),
-				month: dateNow.getMonth(),
+				day: dateNow.getDate(),
+				month: dateNow.getMonth() + 1,
 				year: dateNow.getFullYear(),
 				hours: dateNow.getHours(),
 				minutes: dateNow.getMinutes(),
-				seconds: null
+				seconds: dateNow.getSeconds()
 			});
 			checkActivityDate();
 		}, 1000);
 		return () => clearInterval(timer);
 	}, []);
+
+    useEffect(() => {
+        checkActivityDate();
+    },[dateTime]);
 	
 	function checkActivityDate(){
-		if(convertedData.day <= dateTime.day){
-			if((convertedData.day == dateTime.day) && (convertedData.month == dateTime.month) && (convertedData.year == dateTime.year)){
+        if((convertedData.month >= dateTime.month) && (convertedData.year >= dateTime.year)){
+			if((convertedData.day == dateTime.day) && (convertedData.month == dateTime.month) && (convertedData.year == dateTime.year) && ((convertedData.hours > dateTime.hours) || ((convertedData.minutes > dateTime.minutes) && (convertedData.hours == dateTime.hours)))){
 				setDateColor("yellow");
 			}
-			else{
+            else if(((convertedData.day == dateTime.day) && (convertedData.month == dateTime.month) && (convertedData.year == dateTime.year)) && ((convertedData.hours < dateTime.hours) || ((convertedData.hours == dateTime.hours) && (convertedData.minutes <= dateTime.minutes)))){
+                setDateColor("red");
+            }
+			else if(convertedData.day > dateTime.day){
 				setDateColor("green");
 			}
-		}else if((convertedData.month <= dateTime.month) && (convertedData.year <= dateTime.year)){
+            else if(convertedData.day < dateTime.day){
+				setDateColor("red");
+			}
+		}else{
 			setDateColor("red");
 		}
 	}	
@@ -76,7 +86,10 @@ export default function Activity({photo, name, date, id, color}){
 					color={dateColor}
 					size="lg"
 					/>
-					<p>{`${convertedData.day}/${convertedData.month}`}</p>
+					<p> { convertedData.day < 10 ? `0${convertedData.day}/` : `${convertedData.day}/` }
+                        { convertedData.month < 10 ? `0${convertedData.month}` : `${convertedData.month}` }
+                    </p>
+                    
 				</ActivityDate>
 			</ActivityWrapper>
 		</Link>
