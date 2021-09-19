@@ -1,5 +1,7 @@
 import Link from "next/link";
 import {  Wrapper, ClassDetails } from "./styles";
+import { useState, useEffect } from "react";
+import { useFetch } from "../../hooks/useFetch";
 
 export default function Class({photo, name, id, color, teacher}){
     return (
@@ -13,7 +15,7 @@ export default function Class({photo, name, id, color, teacher}){
                     </div>
                     <section>
                         <p>{name}</p>
-                        <span>Prof: {teacher}</span>
+                        <span>Professor(a): {teacher}</span>
                     </section>
                 </ClassDetails>
             </Wrapper>
