@@ -47,7 +47,7 @@ function Boletim(){
     return (
         <div>
             <Head>
-                <title>Boletim</title>
+                <title>Boletim | E-Learning</title>
             </Head>
             <Header />
 

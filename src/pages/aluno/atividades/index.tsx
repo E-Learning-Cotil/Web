@@ -12,7 +12,7 @@ function Atividades(){
     return(
         <div>
             <Head>
-                <title>Atividades</title>
+                <title>Atividades | E-Learning</title>
             </Head>
             <Header/>
             <Container>

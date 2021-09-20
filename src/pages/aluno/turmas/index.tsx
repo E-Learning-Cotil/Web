@@ -15,7 +15,7 @@ function Turmas(){
     return(
         <div>
             <Head>
-                <title>Turmas</title>
+                <title>Turmas | E-Learning</title>
             </Head>
             
             <Header/>
