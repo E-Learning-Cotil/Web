@@ -8,8 +8,21 @@ export default createGlobalStyle`
     }
 
     body {
-        background-color: ${props => props.theme.colors.background};
-        color: ${props => props.theme.colors.text};
-        font: 400 16px ${props => props.theme.fonts.primary}
+        background-color: ${props => props.theme.colors.dark};
+        color: ${props => props.theme.colors.light};
+        font: 400 16px ${props => props.theme.fonts.primary};
+        overflow-x: hidden;
+    }
+
+    body::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    body::-webkit-scrollbar-track {
+        background: ${props => props.theme.colors.dark};
+    }
+
+    body::-webkit-scrollbar-thumb {
+        background: ${props => props.theme.colors.mediumDark};
     }
 `;
