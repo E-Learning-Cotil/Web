@@ -92,7 +92,7 @@ export function Dashboard(props) {
                                 <Activity 
                                     key={index}
                                     id={ativ.id}
-                                    photo={ativ.tipo === "ATIVIDADE" ? ativ.topico.turma.icone.link : ativ.topicos.turma.icone.link}
+                                    photo={ativ.tipo === "ATIVIDADE" ? ativ.topico.turma.icone.altLink : ativ.topicos.turma.icone.altLink}
                                     name={ativ.nome}
                                     date={ativ.dataFim}
                                     color={ativ.tipo === "ATIVIDADE" ? ativ.topico.turma.cores.corPrim : ativ.topicos.turma.cores.corPrim}
@@ -128,7 +128,7 @@ export function Dashboard(props) {
                                     id={turma.id}
                                     name={turma.nome}
                                     color={turma.cores.corPrim}
-                                    photo={turma.icone.link}
+                                    photo={turma.icone.altLink}
                                     teacher={turma.professor.nome}
                                 />
                             )

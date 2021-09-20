@@ -44,7 +44,7 @@ function Turmas(){
                                     id={turma.id}
                                     name={turma.nome}
                                     color={turma.cores.corPrim}
-                                    photo={turma.icone.link}
+                                    photo={turma.icone.altLink}
                                     teacher={turma.professor.nome}
                                 />
                             )

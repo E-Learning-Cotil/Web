@@ -8,7 +8,7 @@ import { useFetch } from "../../../hooks/useFetch";
 import Head from "next/head";
 
 function Atividades(){
-    const { data } = useFetch('/atividades');
+    const { data } = useFetch('/atividades/list-by-role');
     return(
         <div>
             <Head>
@@ -41,7 +41,7 @@ function Atividades(){
                                 <Activity 
                                     key={index}
                                     id={ativ.id}
-                                    photo={ativ.topico.turma.icone.link}
+                                    photo={ativ.topico.turma.icone.altLink}
                                     name={ativ.nome}
                                     date={ativ.dataFim}
                                     color={ativ.topico.turma.cores.corPrim}
