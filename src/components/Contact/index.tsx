@@ -8,13 +8,13 @@ interface ContactProps{
     img: string;
     name: string;
     lastMsg: string;
-    newMsgs: number;
+    hasNewMsgs: boolean;
     id: string;
     setAsSelected(id: string): void;
     selectedId: string;
 }
 
-export default function Contact({img, name, lastMsg, newMsgs, id, setAsSelected, selectedId}: ContactProps){
+export default function Contact({img, name, lastMsg, hasNewMsgs, id, setAsSelected, selectedId}: ContactProps){
     const [isSelected, setIsSelected] = useState(false);
 
     useEffect(() => {
@@ -40,14 +40,14 @@ export default function Contact({img, name, lastMsg, newMsgs, id, setAsSelected,
                 )}
             </div>
             {
-                newMsgs > 0 && (
+                hasNewMsgs && (
                     <span>
                         <FontAwesomeIcon
                             icon={faComment}
                             color="#fff"
                             size="sm"
                         />
-                        <p>{newMsgs}</p>
+                        <p>NEW</p>
                     </span>
                 )
             }

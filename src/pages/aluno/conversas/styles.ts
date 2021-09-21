@@ -83,6 +83,20 @@ const InputBox = styled.div`
     }
 `;
 
+const SelectConversation = styled.div`
+    width: 100%;
+    height: 100%;
+    border-left: 1px solid ${props => props.theme.colors.light};
+    display: grid;
+    place-items: center;
+
+    div{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+`;
+
 export {
     Container,
     Title,
@@ -90,5 +104,6 @@ export {
     Contacts,
     MessagesBox,
     Messages,
-    InputBox
+    InputBox,
+    SelectConversation
 }
