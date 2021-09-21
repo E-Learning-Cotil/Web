@@ -1,11 +1,9 @@
 import Link from "next/link";
 import {  Wrapper, ClassDetails } from "./styles";
-import { useState, useEffect } from "react";
-import { useFetch } from "../../hooks/useFetch";
 
 export default function Class({photo, name, id, color, teacher}){
     return (
-        <Link href="/">
+        <Link href={`turmas/${id}`}>
             <Wrapper>
                 <ClassDetails
                     backgroundColor={color}
