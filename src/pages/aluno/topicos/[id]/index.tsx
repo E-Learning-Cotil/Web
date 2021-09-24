@@ -27,7 +27,10 @@ function TopicoEspecifico(){
                 <title>{data?.nome} | E-Learning</title>
             </Head>
 
-            <Header/>
+            <Header
+                primaryColor={data?.turma.cores.corPrim}
+                secondaryColor={data?.turma.cores.corSec}
+            />
 
             <Container>
                 <Title>
@@ -53,7 +56,7 @@ function TopicoEspecifico(){
                         </section>
                     )}
                 </Title>
-                
+
                 {!data ? (
                     <span>
                         <ShimmerEffect 

@@ -25,7 +25,12 @@ function TurmaEspecifica(){
             <Head>
                 <title>{data?.nome} | E-Learning</title>
             </Head>
-            <Header/>
+
+            <Header
+                primaryColor={data?.cores.corPrim}
+                secondaryColor={data?.cores.corSec}
+            />
+
             <Container>
                 <Title>
                     <Icon

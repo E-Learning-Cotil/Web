@@ -4,15 +4,24 @@ import { AuthContext } from "../../contexts/AuthContext"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Wrapper, ProfilePic, Trapezoid, ProfileButton, Triangle, MiniProfile, ControlButton, ProfileName, ProfileEmail, Text } from "./styles";
 import { faPencilAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import { SpawnSyncOptionsWithBufferEncoding } from "child_process";
 
-export default function Header(){
+interface HeaderProps{
+    primaryColor?: string;
+    secondaryColor?: string;
+}
+
+export default function Header({
+    primaryColor = "#4AED64", 
+    secondaryColor = "#009418"
+}: HeaderProps){
     const { signOut, user } = useContext(AuthContext)
     const [ isProfileOpenned, setIsProfileOpenned ] = useState(false)
 
     return (
-        <Wrapper>
+        <Wrapper background={secondaryColor}>
             <Link href="/aluno/dashboard">
-                <Trapezoid>
+                <Trapezoid background={primaryColor}>
                     <div></div> 
                     <img src="/logo_and_name.png" alt="" />
                 </Trapezoid>    
