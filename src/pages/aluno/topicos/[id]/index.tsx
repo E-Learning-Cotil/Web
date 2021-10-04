@@ -28,8 +28,8 @@ function TopicoEspecifico(){
             </Head>
 
             <Header
-                primaryColor={data?.turma.cores.corPrim}
-                secondaryColor={data?.turma.cores.corSec}
+                primaryColor={data?.turma.cores.corPrim || "#6D6D6D"}
+                secondaryColor={data?.turma.cores.corSec|| "#454545"}
             />
 
             <Container>
@@ -52,7 +52,7 @@ function TopicoEspecifico(){
                     ) : (
                         <section>
                             <h2>{data?.nome}</h2>
-                            <p>{data?.turma.nome}</p>
+                            <h4>{data?.turma.nome}</h4>
                         </section>
                     )}
                 </Title>
@@ -126,11 +126,12 @@ function TopicoEspecifico(){
                             </section>
                         ) : (
                             <section>
-                                {data?.Materiais.map(({nome}) => (
+                                {data?.Materiais.map(({id,nome}) => (
                                     <TopicItem 
                                         name={nome}
                                         type={TopicItemTypes.MATERIAL}
                                         color={data?.turma.cores.corSec}
+                                        route={`materiais/${id}`}
                                     /> 
                                 ))}
                             </section>
@@ -179,11 +180,12 @@ function TopicoEspecifico(){
                             </section>
                         ) : (
                             <section>
-                                {data?.atividades.map(({nome}) => (
+                                {data?.atividades.map(({id,nome}) => (
                                     <TopicItem 
                                         name={nome}
                                         type={TopicItemTypes.ATIVIDADE}
                                         color={data?.turma.cores.corSec}
+                                        route={`atividades/${id}`}
                                     /> 
                                 ))}
                             </section>
@@ -232,11 +234,12 @@ function TopicoEspecifico(){
                             </section>
                         ) : (
                             <section>
-                                {data?.testes.map(({nome}) => (
+                                {data?.testes.map(({id,nome}) => (
                                     <TopicItem 
                                         name={nome}
                                         type={TopicItemTypes.TESTE}
                                         color={data?.turma.cores.corSec}
+                                        route={`testes/${id}`}
                                     /> 
                                 ))}
                             </section>

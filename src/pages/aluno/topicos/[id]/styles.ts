@@ -25,7 +25,7 @@ const Title = styled.div`
             margin-top: 5px;
         }
 
-        h2{
+        h2, h4{
             font-family: ${props => props.theme.fonts.secondary};
             font-weight: normal;
         }
