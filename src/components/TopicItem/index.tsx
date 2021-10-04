@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as Icons from '@fortawesome/free-solid-svg-icons';
+import Link from "next/link";
 
 import { Container } from "./styles"
 
@@ -13,21 +14,24 @@ interface TopicItemProps{
     type: TopicItemTypes;
     name: string;
     color: string;
+    route: string;
 }
 
-export default function TopicItem({type, name, color}: TopicItemProps){
+export default function TopicItem({type, name, color, route}: TopicItemProps){
     return (
-        <Container
-            background={color}
-        >
-            <section>
-                <FontAwesomeIcon 
-                    icon={Icons[type]}
-                    color="#fff"
-                    size="lg"
-                />
-            </section>
-            <p>{name}</p>
-        </Container>
+        <Link href={"/aluno/" + route}>
+            <Container
+                background={color}
+            >
+                <section>
+                    <FontAwesomeIcon 
+                        icon={Icons[type]}
+                        color="#fff"
+                        size="lg"
+                    />
+                </section>
+                <p>{name}</p>
+            </Container>
+        </Link>
     )
 }

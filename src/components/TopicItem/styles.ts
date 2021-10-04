@@ -13,6 +13,7 @@ const Container = styled("nav")<TopicItemContainerProps>`
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    cursor: pointer;
 
     section {
         width: 40px;
