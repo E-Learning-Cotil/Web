@@ -34,7 +34,7 @@ export default function Header({
                         <ProfilePic src={user?.foto} alt={user?.nome} hasBorder={false} />
                         <ProfileName>{user?.nome}</ProfileName>
                         <ProfileEmail>{user?.email}</ProfileEmail>
-                        <Link href="/">
+                        <Link href={`/${user?.role.toLowerCase()}/configuracoes`}>
                             {/* <a> */}
                                 <ControlButton>
                                     <FontAwesomeIcon 
