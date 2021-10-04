@@ -22,7 +22,6 @@ function Turmas(){
             <Container>
                 <Title>
                     <h2>Turmas</h2>
-                    <div></div> {/* Title tip */}
                 </Title>
 
                 <Group>

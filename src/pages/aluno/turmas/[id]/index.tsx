@@ -27,8 +27,8 @@ function TurmaEspecifica(){
             </Head>
 
             <Header
-                primaryColor={data?.cores.corPrim}
-                secondaryColor={data?.cores.corSec}
+                primaryColor={data?.cores.corPrim || "#6D6D6D"}
+                secondaryColor={data?.cores.corSec|| "#454545"}
             />
 
             <Container>
