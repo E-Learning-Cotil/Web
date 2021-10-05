@@ -42,7 +42,7 @@ const FileBox = styled.div`
 
     section {
         h3{
-            margin-bottom: 20px;
+            height: 40px;
         }
     }
 `;
@@ -55,6 +55,7 @@ const Dropzone = styled.div`
     display: grid;
     place-items: center;
     cursor: pointer;
+    margin-top: 10px;
 `;
 
 const SpaceTop = styled.div`
@@ -93,11 +94,11 @@ const SendFilesButton = styled.button<SendFilesButtonProps>`
     }
 `;
 
-const SuccessText = styled.h4`
-    margin-top: 10px;
-    color: ${props => props.theme.colors.primaryMedium};
-    font-family: ${props => props.theme.fonts.primary};
-    font-size: 16px;
+const SendedStatus = styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 `;
 
 export {
@@ -107,5 +108,5 @@ export {
     Dropzone,
     SpaceTop,
     SendFilesButton,
-    SuccessText
+    SendedStatus
 };

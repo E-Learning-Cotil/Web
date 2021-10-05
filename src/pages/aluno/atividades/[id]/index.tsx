@@ -3,8 +3,9 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import {useDropzone} from 'react-dropzone'; 
 import { ToastContainer, toast } from 'react-toastify';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+import Loading from 'react-loading';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 import withAuthSSG from "../../../../hoc/withAuthSSG";
 import { useFetch } from "../../../../hooks/useFetch";
@@ -14,7 +15,7 @@ import Header from "../../../../components/Header";
 import File from "../../../../components/File";
 import ShimmerEffect from "../../../../components/ShimmerEffect";
 
-import { Container, Title, FileBox, Dropzone, SpaceTop, SendFilesButton, SuccessText } from "./styles";
+import { Container, Title, FileBox, Dropzone, SpaceTop, SendFilesButton, SendedStatus } from "./styles";
 import 'react-toastify/dist/ReactToastify.css';
 
 function AtividadeEspecifica(){
@@ -24,11 +25,27 @@ function AtividadeEspecifica(){
 
     const [file, setFile] = useState(null);
     const [sended, setSended] = useState(false);
+    const [isSending, setIsSending] = useState(false);
 
     const { data } = useFetch(`/atividades/${id}`);
 
     useEffect(() => {
         console.log(data);
+
+        if(data?.atividadesAlunos) {
+            const { atividadesAlunos: [sendedFile] } = data;
+
+
+            if(sendedFile) {
+                setFile({
+                    name: sendedFile.nome,
+                    link: sendedFile.link,
+                    data: sendedFile.dataEnvio,
+                    nota: sendedFile.nota
+                })
+                setSended(true);
+            }
+        }
     }, [data])
 
     useEffect(() => {
@@ -38,18 +55,26 @@ function AtividadeEspecifica(){
         
                 formData.append('file', acceptedFiles[0]);
         
-                const {data} = await api.post('/arquivos', formData, {
+                const {data: uploadedFile} = await api.post('/arquivos', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                         'basic_token': '7631c0f15fc888a088c5f0c28047aaef'
                     }
                 })
-                setFile(data);
+
+                setFile({
+                    link: uploadedFile.link,
+                    name: uploadedFile.name,
+                    data: new Date().toISOString(),
+                    nota: null
+                });
             }
         })()
     }, [acceptedFiles])
 
     async function sendActivity(){
+        setIsSending(true);
+
         const newActivity = {
             link: file.link,
             nome: file.name,
@@ -57,20 +82,27 @@ function AtividadeEspecifica(){
             idTurma: data?.topico.turma.id    
         }
 
-        console.log(newActivity);
-        const {status, data: { message }} = await api.post('/atividades-aluno', newActivity);
-        if(status === 201){
-            toast.success(message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            setSended(true);
+        try {
+            const {status, data: { message }} = await api.post('/atividades-aluno', newActivity);
+
+            if(status === 201){
+                toast.success(message, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                setSended(true);
+            }
+        } catch (error) {
+            console.log(error.response)
         }
+        
+
+        setIsSending(false);
     }
 
     return(
@@ -112,7 +144,9 @@ function AtividadeEspecifica(){
                                 width="120px"
                                 height="20px"
                             />
-                        ) : (
+                        ) : sended ? (
+                            <h4>Entregue em: {file?.data}</h4>
+                            ) : (
                             <h4>Data de entrega: {data?.dataFim}</h4>
                         )}
                     </div>
@@ -178,14 +212,39 @@ function AtividadeEspecifica(){
                             )
                     }
                     <section>
-                        <h3>Envios</h3>
-                        {
-                            file === null ? (
+                        <SendedStatus>
+                            <h3>Envios</h3>
+                            {
+                                sended && (
+                                    <p>Nota: {file?.nota || "Sem nota"}</p>
+                                )
+                            }
+                        </SendedStatus>
+
+                        {   
+                            !data ? (
+                                <>
+                                    <ShimmerEffect 
+                                        width="100%"
+                                        height="40px"
+                                    />
+                                    <SpaceTop />
+                                    <ShimmerEffect 
+                                        width="100%"
+                                        height="40px"
+                                    />
+                                    <SpaceTop />
+                                    <ShimmerEffect 
+                                        width="100%"
+                                        height="40px"
+                                    />
+                                </>
+                            ) : file === null ? (
                                 <Dropzone {...getRootProps({className: 'dropzone'})}>
                                     <input {...getInputProps()} />
                                     <p>Solte alguns arquivos aqui, ou clique <b>aqui</b> para selecionar</p>
                                 </Dropzone>
-                                ) : (
+                            ) : (
                                 <File 
                                     key={file?.name}
                                     color={data?.topico.turma.cores.corPrim}
@@ -196,22 +255,28 @@ function AtividadeEspecifica(){
                         }
 
                         {
-                            sended ? (
-                                <SuccessText>Lição entregue!</SuccessText>
-                            ) : (
+                            data && (
                                 <SendFilesButton
                                     onClick={sendActivity}
                                     primary={data?.topico.turma.cores.corPrim || "#6D6D6D"}
                                     secondary={data?.topico.turma.cores.corSec || "#3D3D3D"}
                                 >
-                                    <p>Enviar atividade</p>
-                                    <FontAwesomeIcon 
-                                        icon={faPaperPlane}
-                                        color="#fff"
-                                        size="1x"
-                                    />
+                                    {
+                                        isSending ? (
+                                            <Loading type={'spinningBubbles'} color={'#fff'}  height={'20px'} width={'20px'} />
+                                        ) : (
+                                            <>
+                                                <p>Enviar atividade</p>
+                                                <FontAwesomeIcon 
+                                                    icon={faPaperPlane}
+                                                    color="#fff"
+                                                    size="1x"
+                                                />
+                                            </>
+                                        )
+                                    }
                                 </SendFilesButton>
-                            )    
+                            )
                         }
                     </section>
                 </FileBox>
