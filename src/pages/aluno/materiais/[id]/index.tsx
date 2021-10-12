@@ -27,8 +27,8 @@ function MaterialEspecifico() {
             </Head>
 
             <Header
-                primaryColor={data?.topico.turma.cores.corPrim}
-                secondaryColor={data?.topico.turma.cores.corSec}
+                primaryColor={data?.topico.turma.cores.corPrim || "#6D6D6D"}
+                secondaryColor={data?.topico.turma.cores.corSec|| "#454545"}
             />
 
             <Container>
@@ -104,9 +104,9 @@ function MaterialEspecifico() {
                             data?.arquivosMateriais.length > 0 && (
                                 <section>
                                     <h3>Anexos</h3>
-                                    {data?.arquivosMateriais.map(({ nome }) => (
+                                    {data?.arquivosMateriais.map(material => (
                                         <File
-                                            name={nome}
+                                            name={material.arquivoProfessor.nome}
                                             color={data?.topico.turma.cores.corSec}
                                             route="/"
                                         />

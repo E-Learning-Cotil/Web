@@ -255,7 +255,7 @@ function AtividadeEspecifica(){
                         }
 
                         {
-                            data && (
+                            data && !sended && (
                                 <SendFilesButton
                                     onClick={sendActivity}
                                     primary={data?.topico.turma.cores.corPrim || "#6D6D6D"}
