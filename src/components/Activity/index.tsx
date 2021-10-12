@@ -3,7 +3,7 @@ import {  ActivityWrapper, ActivityDate, ActivityName } from "./styles";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
-import { getColorOfDate, showDateAnTime } from "../../utils/moment";
+import { getColorOfDate, showDateAndTime } from "../../utils/moment";
 
 export default function Activity({photo, name, date, id, color}){
 	return (
@@ -26,7 +26,7 @@ export default function Activity({photo, name, date, id, color}){
 						color={getColorOfDate(date)}
 						size="lg"
 					/>
-					<p> {showDateAnTime(date, "DD/MM")} </p>
+					<p> {showDateAndTime(date, "DD/MM")} </p>
 				</ActivityDate>
 			</ActivityWrapper>
 		</Link>

@@ -17,7 +17,7 @@ import QuestionSkeleton from '../../../../components/QuestionSkeleton'
 import { Container, Title, Question, SendButton, WarningBox, MarginTenPx } from './styles';
 
 import 'react-toastify/dist/ReactToastify.css';
-import { showDateAnTime, getColorOfDate } from "../../../../utils/moment";
+import { showDateAndTime, getColorOfDate, showTimePassed } from "../../../../utils/moment";
 
 function AtividadeEspecifica(){
     const {query: { id }} = useRouter();
@@ -41,8 +41,6 @@ function AtividadeEspecifica(){
             setAnswers(defaultAnswers);
 
             setIsAnswered(!!data?.testesAlunos[0])
-
-            console.log(getColorOfDate(data?.dataFim))
         }
     }, [data])
 
@@ -64,7 +62,7 @@ function AtividadeEspecifica(){
 
         if(areAllAnswered){
             const postData = {
-                nota: score,
+                nota: (score / questions.length) * 10,
                 idTeste: id,
                 idTurma: data?.topicos.turma.id
             }
@@ -82,7 +80,9 @@ function AtividadeEspecifica(){
                     progress: undefined,
                 });
 
-                Router.push(`/aluno/topicos/${data?.topicos.id}`);
+                setTimeout(() => {
+                    Router.push(`/aluno/topicos/${data?.topicos.id}`);
+                }, 1000)
             } catch (error) {
                 toast.error(error.response.data.message, {
                     position: "top-right",
@@ -148,7 +148,16 @@ function AtividadeEspecifica(){
                     >
                         <h2>{data?.nome}</h2>
                         <h3>{data?.topicos.nome}</h3>
-                        <h4>Data de entrega: <b>{showDateAnTime(data?.dataFim, 'LLL')}</b></h4>
+                        {
+                            isAnswered ? (
+                                    <h4>Entregue {showTimePassed(data?.testesAlunos[0]?.dataEnvio)}</h4>
+                                ) : (
+                                    <h4>
+                                        Data de entrega:  
+                                        <b> {showDateAndTime(data?.dataFim, 'LLL')}</b>
+                                    </h4>
+                            )
+                        }
                     </Title>
                 )
             }

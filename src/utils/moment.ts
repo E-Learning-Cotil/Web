@@ -1,7 +1,7 @@
 import moment from "moment";
 import 'moment/locale/pt-br';
 
-function showDateAnTime(date: string, format: string){
+function showDateAndTime(date: string, format: string){
     moment.locale('pt-br');
     const formattedDate = moment(date).format(format);
     return formattedDate;
@@ -29,7 +29,7 @@ function getColorOfDate(date: string){
 }
 
 export {
-    showDateAnTime,
+    showDateAndTime,
     getColorOfDate,
     showTimePassed
 }
