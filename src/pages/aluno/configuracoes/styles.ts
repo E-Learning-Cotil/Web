@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const Container = styled.div`
     width: 80%;
     margin: 30px 10% 30px 10%;
-    `;
+`;
 
 const Title = styled.div`
     h2 {
@@ -17,7 +17,7 @@ const Title = styled.div`
         border-radius: 4px;
         background: ${props => props.theme.colors.primaryMedium};
     }
-    `;
+`;
 
 const ConfigDiv = styled.div`
     margin-top: 30px;
@@ -38,22 +38,22 @@ const ImageDiv = styled.div`
     display: flex;
     place-items: center;
     overflow: hidden;
-    padding: 50px;
+    padding: 20px;
     
     img{
         z-index: 4;
-        width: calc(60vh - 100px);
-        height: calc(60vh - 100px);
+        width: calc(55vh - 50px);
+        height: calc(55vh - 50px);
         border-radius: 4px;
-        background: ${props => props.theme.colors.dark};
+        background: ${props => props.theme.colors.mediumDark};
         object-fit: cover;
     }
 
     button{
         position: absolute;
         z-index: 5;
-        bottom: 60px;
-        right: 60px;
+        top: calc(100% - 100px);
+        right: 30px;
         background-color: rgba(0,0,0,0.7);
         border-radius: 4px;
         padding: 10px;
@@ -69,7 +69,8 @@ const PropertyTitle = styled.h4`
     `;
 
 const PropertyData = styled.input`
-    width: 100%;
+    width: calc(30vw - 100px);
+    box-sizing: border-box;
     font-family: ${props => props.theme.fonts.secondary};
     font-size: 18px;
     color: ${props => props.theme.colors.light};
@@ -80,7 +81,7 @@ const PropertyData = styled.input`
     outline: none;
     `;
 
-const DataFields = styled.div`
+const DataFields = styled.form`
     margin-top: auto;
     margin-bottom: auto;
     height: 80%;
