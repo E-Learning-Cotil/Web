@@ -108,7 +108,7 @@ function MaterialEspecifico() {
                                         <File
                                             name={material.arquivoProfessor.nome}
                                             color={data?.topico.turma.cores.corSec}
-                                            route="/"
+                                            route={material.arquivoProfessor.link}
                                         />
                                     ))}
                                 </section>
