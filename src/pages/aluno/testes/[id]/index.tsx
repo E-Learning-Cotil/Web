@@ -1,24 +1,114 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
+import Link from "next/link";
+import Router, { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
 
 import withAuthSSG from "../../../../hoc/withAuthSSG";
+import ShimmerEffect from "../../../../components/ShimmerEffect";
 import { useFetch } from "../../../../hooks/useFetch";
 import { api } from "../../../../services/api";
 
 import Header from "../../../../components/Header";
-import ShimmerEffect from "../../../../components/ShimmerEffect";
+import QuestionSkeleton from '../../../../components/QuestionSkeleton'
 
-import { Container, Title } from './styles';
+import { Container, Title, Question, SendButton, WarningBox, MarginTenPx } from './styles';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 function AtividadeEspecifica(){
     const {query: { id }} = useRouter();
 
+    const [questions, setQuestions] = useState([]);
+    const [answers, setAnswers] = useState([]);
+    const [isAnswered, setIsAnswered] = useState(null);
+
     const { data } = useFetch(`/testes/${id}`);
 
     useEffect(() => {
-        console.log(data);
+        if(data){
+            const questionsJSON = JSON.parse(data?.conteudo);
+            setQuestions(questionsJSON);
+
+            const defaultAnswers = questionsJSON.map(question => {
+                return {
+                    marked: null   
+                }
+            });
+            setAnswers(defaultAnswers);
+
+            setIsAnswered(!!data?.testesAlunos[0])
+        }
     }, [data])
+
+    async function sendTest(){
+        let score = 0;
+        let areAllAnswered = true;
+
+        questions.forEach((question, index) => {
+            const selected = answers[index].marked;
+
+            if(selected === null) {
+                alert(`Questão ${index+1} em branco`);
+                areAllAnswered = false;                
+                return;
+            }
+
+            if(selected === question.certo) score++;
+        });
+
+        if(areAllAnswered){
+            const postData = {
+                nota: score,
+                idTeste: id,
+                idTurma: data?.topicos.turma.id
+            }
+
+            try {
+                const { data: result } = await api.post('/testes-aluno', postData);
+                
+                toast.success(result.message, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+
+                Router.push(`/aluno/topicos/${data?.topicos.id}`);
+            } catch (error) {
+                toast.error(error.response.data.message, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            }
+        }
+    }
+
+    async function changeAnswer(question, marked){
+        setAnswers(prev => {
+            const newAnswers = prev.map((prevAnswer, index) => {
+                let newAnswer = prevAnswer;
+                
+                if(index === question){
+                    newAnswer = { marked };
+                }
+
+                return newAnswer;
+            });
+
+            return newAnswers;
+        })
+    }
 
     return(
         <div>
@@ -26,17 +116,111 @@ function AtividadeEspecifica(){
                 <title>{data?.nome} | E-Learning</title>
             </Head>
 
-            {/* <Header
-                primaryColor={data?.topico.turma.cores.corPrim || "#6D6D6D"}
-                secondaryColor={data?.topico.turma.cores.corSec || "#454545"}
-            /> */}
+            <Header
+                primaryColor={data?.topicos.turma.cores.corPrim || "#6D6D6D"}
+                secondaryColor={data?.topicos.turma.cores.corSec || "#454545"}
+            />
             
+            {
+                !data ? (
+                    <Title>
+                        <ShimmerEffect
+                            width="35vh"
+                            height="32px"
+                        />
+                        <MarginTenPx />
+                        <ShimmerEffect
+                            width="45vh"
+                            height="24px"
+                        />
+                        <MarginTenPx />
+                        <ShimmerEffect
+                            width="55vh"
+                            height="24px"
+                        />
+                    </Title>
+                ) : (
+                    <Title>
+                        <h2>{data?.nome}</h2>
+                        <h4>{data?.topicos.nome}</h4>
+                        <h4>Data de entrega: {data?.dataFim}</h4>
+                    </Title>
+                )
+            }
+
             <Container>
-                <Title>
-                    <h2>Teste da Fuvest</h2>
-                    <h4>Trigonometria - Data de entrega: {data?.dataFim}</h4>
-                </Title>
+                {
+                    isAnswered === null ? (
+                        <>
+                            <QuestionSkeleton />
+                            <QuestionSkeleton />
+                            <QuestionSkeleton />
+                            <QuestionSkeleton />
+                            <QuestionSkeleton />
+                        </>
+                    ) : isAnswered ? (
+                        <WarningBox
+                            primary={data?.topicos.turma.cores.corPrim}
+                            secondary={data?.topicos.turma.cores.corSec}
+                        >
+                            <nav>
+                                <FontAwesomeIcon 
+                                    icon={faCheck}
+                                    color="#fff"
+                                    size="2x"
+                                />
+                                <h1>Teste já respondido!</h1>
+                            </nav>
+                            <p>Nota: {data?.testesAlunos[0]?.nota}</p>
+                            <Link href={`/aluno/topicos/${data?.topicos.id}`}>
+                                <a>
+                                    Voltar ao tópico
+                                </a>
+                            </Link>
+                        </WarningBox>
+                    ) : (
+                        <>
+                            {
+                                questions.map((question, indexQuestao) => (
+                                    <Question>
+                                        <h3>{indexQuestao+1}{")"}  {question.pergunta}</h3>
+                                        
+                                        {
+                                            question.imagem && (
+                                                <img src={question.imagem} alt={question.pergunta} />
+                                            )
+                                        }
+            
+                                        {
+                                            question.alternativas.map((alternativa, indexAlternativa) => (
+                                                <div>
+                                                    <input 
+                                                        type="radio" 
+                                                        name={`questao-${indexQuestao}`} 
+                                                        id={`questao-${indexQuestao}:alternativa-${indexAlternativa}`} 
+                                                        onChange={() => changeAnswer(indexQuestao, indexAlternativa)}
+                                                    />
+                                                    <label htmlFor={`questao-${indexQuestao}:alternativa-${indexAlternativa}`}>{alternativa.texto}</label>
+                                                </div>
+                                            ))
+                                        }
+                                    </Question>
+                                ))
+                            }
+
+                            <SendButton 
+                                primary={data?.topicos.turma.cores.corPrim || "#6D6D6D"}
+                                secondary={data?.topicos.turma.cores.corSec || "#454545"}
+                                onClick={sendTest}
+                            >
+                                Enviar teste
+                            </SendButton>
+                        </>
+                    )
+                }
             </Container>
+
+            <ToastContainer />
         </div>
     );
 }
