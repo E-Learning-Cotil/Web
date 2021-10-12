@@ -17,6 +17,7 @@ import QuestionSkeleton from '../../../../components/QuestionSkeleton'
 import { Container, Title, Question, SendButton, WarningBox, MarginTenPx } from './styles';
 
 import 'react-toastify/dist/ReactToastify.css';
+import { showDateAnTime, getColorOfDate } from "../../../../utils/moment";
 
 function AtividadeEspecifica(){
     const {query: { id }} = useRouter();
@@ -40,6 +41,8 @@ function AtividadeEspecifica(){
             setAnswers(defaultAnswers);
 
             setIsAnswered(!!data?.testesAlunos[0])
+
+            console.log(getColorOfDate(data?.dataFim))
         }
     }, [data])
 
@@ -140,10 +143,12 @@ function AtividadeEspecifica(){
                         />
                     </Title>
                 ) : (
-                    <Title>
+                    <Title
+                        timeColor={getColorOfDate(data?.dataFim)}
+                    >
                         <h2>{data?.nome}</h2>
-                        <h4>{data?.topicos.nome}</h4>
-                        <h4>Data de entrega: {data?.dataFim}</h4>
+                        <h3>{data?.topicos.nome}</h3>
+                        <h4>Data de entrega: <b>{showDateAnTime(data?.dataFim, 'LLL')}</b></h4>
                     </Title>
                 )
             }

@@ -16,7 +16,11 @@ const Container = styled.div`
     }
 `;
 
-const Title = styled.div`
+interface TimeColorProps{
+    timeColor: string;
+}
+
+const Title = styled.div<TimeColorProps>`
     width: 100%;
     display: flex;
     align-items: center;
@@ -25,6 +29,11 @@ const Title = styled.div`
     h2, h4 {
         font-family: ${props => props.theme.fonts.secondary};
         font-weight: 400;
+
+        b{
+            font-weight: 400;
+            color: ${props => props.timeColor};
+        }
     }
 
     div{

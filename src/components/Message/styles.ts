@@ -30,6 +30,19 @@ const Text = styled("p")<MessageProps>`
         background: ${props => props.theme.colors.dark};
     `}
 
+    p{
+        width: 100%;
+        font-size: 12px;
+        color: #ddd;
+        display: flex;
+
+        ${props => props.isMine ? css`
+            justify-content: flex-end;
+        ` : css`
+            justify-content: flex-start;
+        `}
+    }
+
     span{
         position: absolute;
         top: 0;

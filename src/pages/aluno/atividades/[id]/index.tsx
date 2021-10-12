@@ -17,6 +17,7 @@ import ShimmerEffect from "../../../../components/ShimmerEffect";
 
 import { Container, Title, FileBox, Dropzone, SpaceTop, SendFilesButton, SendedStatus } from "./styles";
 import 'react-toastify/dist/ReactToastify.css';
+import { getColorOfDate, showDateAnTime } from "../../../../utils/moment";
 
 function AtividadeEspecifica(){
     const {query: { id }} = useRouter();
@@ -117,7 +118,9 @@ function AtividadeEspecifica(){
             />
             
             <Container>
-                <Title>
+                <Title
+                    timeColor={getColorOfDate(data?.dataFim)}
+                >
                     <div>
                         {!data ? (
                             <>
@@ -147,7 +150,7 @@ function AtividadeEspecifica(){
                         ) : sended ? (
                             <h4>Entregue em: {file?.data}</h4>
                             ) : (
-                            <h4>Data de entrega: {data?.dataFim}</h4>
+                            <h4>Data de entrega: <b>{showDateAnTime(data?.dataFim, "DD/MM")}</b></h4>
                         )}
                     </div>
                 </Title>
@@ -191,7 +194,7 @@ function AtividadeEspecifica(){
                                         />
                                     ))}
                                 </section>
-                            ) : data?.arquivosAtividades === undefined && (
+                            ) : data?.arquivosAtividades === undefined ? (
                                 <section>  
                                     <h3>Anexos</h3>
                                     <ShimmerEffect 
@@ -209,6 +212,8 @@ function AtividadeEspecifica(){
                                         height="40px"
                                     />
                                 </section>
+                            ) : (
+                                <section></section>
                             )
                     }
                     <section>

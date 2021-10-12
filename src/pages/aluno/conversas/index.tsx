@@ -91,6 +91,7 @@ export function Conversas() {
         if(messageBoxRef.current){
             messageBoxRef.current.scrollTop = messageBoxRef.current.scrollHeight;
         }
+        console.log(messages);
     }, [messages])
 
     useEffect(() => {
@@ -191,6 +192,7 @@ export function Conversas() {
                                     <Message 
                                         key={index}
                                         msg={msg.mensagem}
+                                        date={msg.data}
                                         isMine={user.role === msg.origem.role}
                                     />
                                 ))}

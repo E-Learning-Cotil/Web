@@ -5,16 +5,27 @@ const Container = styled.div`
     margin: 30px 32.5% 30px 32.5%;
 `;
 
-const Title = styled.div`
+interface TimeColorProps{
+    timeColor?: string;
+}
+
+const Title = styled.div<TimeColorProps>`
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     margin: 20px 0 20px 0;
 
-    h2, h4{
+    h2, h3, h4{
         font-family: ${props => props.theme.fonts.secondary};
         font-weight: normal;
+    }
+
+    h4{
+        b{
+            font-weight: normal;
+            color: ${props => props.timeColor || props.theme.colors.light};
+        }
     }
 `;
 
