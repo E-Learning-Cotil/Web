@@ -17,7 +17,7 @@ interface UserProps{
     telefone: string;
     email: string;
     role: string;
-    idSerie: number;
+    idSerie: number | string;
 }
 
 interface AuthResponse{

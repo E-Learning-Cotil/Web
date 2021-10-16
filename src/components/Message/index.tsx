@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { showDateAnTime } from "../../utils/moment";
+import { showDateAndTime } from "../../utils/moment";
 import { Text, Container } from "./styles";
 
 interface MessageProps{
@@ -10,13 +10,13 @@ interface MessageProps{
 
 export default function Message({msg, isMine, date}: MessageProps){
     useEffect(() => {
-        console.log(showDateAnTime(date, "LT"));
+        console.log(showDateAndTime(date, "LT"));
     }, [])
 
     return (
         <Container isMine={isMine}>
             <Text isMine={isMine}>
-                <p>{showDateAnTime(date, "LT")}</p>
+                <p>{showDateAndTime(date, "LT")}</p>
                 {msg}
                 <span></span> {/* Triangle */}
             </Text>

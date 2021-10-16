@@ -42,8 +42,8 @@ const ImageDiv = styled.div`
     
     img{
         z-index: 4;
-        width: calc(55vh - 50px);
-        height: calc(55vh - 50px);
+        width: calc(55vh - 90px);
+        height: calc(55vh - 90px);
         border-radius: 4px;
         background: ${props => props.theme.colors.mediumDark};
         object-fit: cover;
@@ -52,7 +52,7 @@ const ImageDiv = styled.div`
     button{
         position: absolute;
         z-index: 5;
-        top: calc(100% - 100px);
+        top: calc(55vh - 90px);
         right: 30px;
         background-color: rgba(0,0,0,0.7);
         border-radius: 4px;
@@ -87,10 +87,15 @@ const DataFields = styled.form`
     height: 80%;
     width: 100%;
     display: flex;
+    margin-left: 20px;
 
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
+    div div{
+        display: flex;
+        flex-direction: row;
+    }
     `;
 
 const EditButton = styled.button`
@@ -113,6 +118,15 @@ const EditButton = styled.button`
         color: ${props => props.theme.colors.light};
         margin-left: 10px;
     }
+
+    `;
+
+const PasswordButton = styled.button`
+        border: 0;
+        background-color: ${props => props.theme.colors.mediumDark};
+        cursor: pointer;
+        width: 20px;
+        margin-right: 10px;
     `;
 
 export {
@@ -123,5 +137,6 @@ export {
     PropertyTitle,
     PropertyData,
     DataFields,
-    EditButton
+    EditButton,
+    PasswordButton
 };
