@@ -72,7 +72,7 @@ function Configuracoes() {
         const { data: uploadedFile } = await api.post("/arquivos", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
-            basic_token: "7631c0f15fc888a088c5f0c28047aaef",
+            basic_token: process.env.NEXT_PUBLIC_BASIC_TOKEN,
           },
         });
 

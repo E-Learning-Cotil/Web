@@ -20,8 +20,7 @@ import { useEffect } from "react";
 import { parseCookies } from "nookies";
 import { AuthContext } from '../../../contexts/AuthContext';
 
-//const socket = io("http://localhost:3334");
-const socket = io("https://elearning-tcc.herokuapp.com/");
+const socket = io(process.env.NEXT_PUBLIC_BACKEND_URL);
 const { 'elearning.token': token } = parseCookies();
 
 export function Conversas() {
