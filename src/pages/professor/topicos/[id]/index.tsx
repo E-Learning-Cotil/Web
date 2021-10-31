@@ -1,18 +1,20 @@
 import Head from "next/head";
 import { useEffect } from "react";
 import { useRouter } from 'next/router'
-
+import Link from "next/link";
 import Header from "../../../../components/Header";
 import Icon from "../../../../components/Icon";
 import ShimmerEffect from "../../../../components/ShimmerEffect";
 import TopicItem, { TopicItemTypes } from "../../../../components/TopicItem";
 import { useFetch } from "../../../../hooks/useFetch";
 import withAuthSSG from "../../../../hoc/withAuthSSG";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBook, faCheckSquare, faListUl } from '@fortawesome/free-solid-svg-icons'
 
-import { Container, Title, ItemsBox } from "./styles";
+import { Container, Title, ItemsBox, TitleBar, CreateButtonsBox, CreateButton } from "./styles";
 
-function TopicoEspecifico(){
-    const {query: { id }} = useRouter();
+function TopicoEspecifico() {
+    const { query: { id } } = useRouter();
 
     const { data } = useFetch(`/topicos/${id}`);
 
@@ -21,7 +23,7 @@ function TopicoEspecifico(){
         console.log(data);
     }, [data])
 
-    return(
+    return (
         <div>
             <Head>
                 <title>{data?.nome} | E-Learning</title>
@@ -29,22 +31,23 @@ function TopicoEspecifico(){
 
             <Header
                 primaryColor={data?.turma.cores.corPrim || "#6D6D6D"}
-                secondaryColor={data?.turma.cores.corSec|| "#454545"}
+                secondaryColor={data?.turma.cores.corSec || "#454545"}
             />
 
             <Container>
+                <TitleBar>
                     <Title>
-                        <Icon 
+                        <Icon
                             color={data?.turma.cores.corPrim}
                             icon={data?.turma.icone.altLink}
                         />
                         {!data ? (
                             <section>
-                                <ShimmerEffect 
+                                <ShimmerEffect
                                     width="200px"
                                     height="30px"
                                 />
-                                <ShimmerEffect 
+                                <ShimmerEffect
                                     width="120px"
                                     height="20px"
                                 />
@@ -57,23 +60,62 @@ function TopicoEspecifico(){
                         )}
                     </Title>
 
-                   
+                    <CreateButtonsBox>
+                        <CreateButton color={data?.turma.cores.corSec || "#454545"}>
+                            <Link href={`/criar-teste`}>
+                                <div>
+                                    <FontAwesomeIcon 
+                                        icon={faCheckSquare}
+                                        color="#fff"
+                                        size="sm"
+                                    />
+                                    <p>Teste</p>
+                                </div>
+                            </Link>
+                        </CreateButton>
+                        <CreateButton color={data?.turma.cores.corSec || "#454545"}>
+                            <Link href={`/criar-atividade`}>
+                                <div>
+                                    <FontAwesomeIcon 
+                                        icon={faListUl}
+                                        color="#fff"
+                                        size="sm"
+                                    />
+                                    <p>Atividade</p>
+                                </div>
+                            </Link>
+                        </CreateButton>
+                        <CreateButton color={data?.turma.cores.corSec || "#454545"}>
+                            <Link href={`/criar-material`}>
+                                <div>
+                                    <FontAwesomeIcon 
+                                        icon={faBook}
+                                        color="#fff"
+                                        size="sm"
+                                    />
+                                    <p>Material</p>
+                                </div>
+                            </Link>
+                        </CreateButton>
+                    </CreateButtonsBox>
+
+                </TitleBar>
 
                 {!data ? (
                     <span>
-                        <ShimmerEffect 
+                        <ShimmerEffect
                             width="100%"
                             height="20px"
                         />
-                        <ShimmerEffect 
+                        <ShimmerEffect
                             width="100%"
                             height="20px"
                         />
-                        <ShimmerEffect 
+                        <ShimmerEffect
                             width="100%"
                             height="20px"
                         />
-                        <ShimmerEffect 
+                        <ShimmerEffect
                             width="60%"
                             height="20px"
                         />
@@ -90,37 +132,37 @@ function TopicoEspecifico(){
                         {!data ? (
                             <section>
                                 <nav>
-                                    <ShimmerEffect 
+                                    <ShimmerEffect
                                         width="100%"
                                         height="40px"
                                     />
                                 </nav>
                                 <nav>
-                                    <ShimmerEffect 
+                                    <ShimmerEffect
                                         width="100%"
                                         height="40px"
                                     />
                                 </nav>
                                 <nav>
-                                    <ShimmerEffect 
+                                    <ShimmerEffect
                                         width="100%"
                                         height="40px"
                                     />
                                 </nav>
                                 <nav>
-                                    <ShimmerEffect 
+                                    <ShimmerEffect
                                         width="100%"
                                         height="40px"
                                     />
                                 </nav>
                                 <nav>
-                                    <ShimmerEffect 
+                                    <ShimmerEffect
                                         width="100%"
                                         height="40px"
                                     />
                                 </nav>
                                 <nav>
-                                    <ShimmerEffect 
+                                    <ShimmerEffect
                                         width="100%"
                                         height="40px"
                                     />
@@ -128,13 +170,13 @@ function TopicoEspecifico(){
                             </section>
                         ) : (
                             <section>
-                                {data?.Materiais.map(({id,nome}) => (
-                                    <TopicItem 
+                                {data?.Materiais.map(({ id, nome }) => (
+                                    <TopicItem
                                         name={nome}
                                         type={TopicItemTypes.MATERIAL}
                                         color={data?.turma.cores.corSec}
                                         route={`materiais/${id}`}
-                                    /> 
+                                    />
                                 ))}
                             </section>
                         )}
@@ -144,37 +186,37 @@ function TopicoEspecifico(){
                         {!data ? (
                             <section>
                                 <nav>
-                                    <ShimmerEffect 
+                                    <ShimmerEffect
                                         width="100%"
                                         height="40px"
                                     />
                                 </nav>
                                 <nav>
-                                    <ShimmerEffect 
+                                    <ShimmerEffect
                                         width="100%"
                                         height="40px"
                                     />
                                 </nav>
                                 <nav>
-                                    <ShimmerEffect 
+                                    <ShimmerEffect
                                         width="100%"
                                         height="40px"
                                     />
                                 </nav>
                                 <nav>
-                                    <ShimmerEffect 
+                                    <ShimmerEffect
                                         width="100%"
                                         height="40px"
                                     />
                                 </nav>
                                 <nav>
-                                    <ShimmerEffect 
+                                    <ShimmerEffect
                                         width="100%"
                                         height="40px"
                                     />
                                 </nav>
                                 <nav>
-                                    <ShimmerEffect 
+                                    <ShimmerEffect
                                         width="100%"
                                         height="40px"
                                     />
@@ -182,13 +224,13 @@ function TopicoEspecifico(){
                             </section>
                         ) : (
                             <section>
-                                {data?.atividades.map(({id,nome}) => (
-                                    <TopicItem 
+                                {data?.atividades.map(({ id, nome }) => (
+                                    <TopicItem
                                         name={nome}
                                         type={TopicItemTypes.ATIVIDADE}
                                         color={data?.turma.cores.corSec}
                                         route={`atividades/${id}`}
-                                    /> 
+                                    />
                                 ))}
                             </section>
                         )}
@@ -198,37 +240,37 @@ function TopicoEspecifico(){
                         {!data ? (
                             <section>
                                 <nav>
-                                    <ShimmerEffect 
+                                    <ShimmerEffect
                                         width="100%"
                                         height="40px"
                                     />
                                 </nav>
                                 <nav>
-                                    <ShimmerEffect 
+                                    <ShimmerEffect
                                         width="100%"
                                         height="40px"
                                     />
                                 </nav>
                                 <nav>
-                                    <ShimmerEffect 
+                                    <ShimmerEffect
                                         width="100%"
                                         height="40px"
                                     />
                                 </nav>
                                 <nav>
-                                    <ShimmerEffect 
+                                    <ShimmerEffect
                                         width="100%"
                                         height="40px"
                                     />
                                 </nav>
                                 <nav>
-                                    <ShimmerEffect 
+                                    <ShimmerEffect
                                         width="100%"
                                         height="40px"
                                     />
                                 </nav>
                                 <nav>
-                                    <ShimmerEffect 
+                                    <ShimmerEffect
                                         width="100%"
                                         height="40px"
                                     />
@@ -236,13 +278,13 @@ function TopicoEspecifico(){
                             </section>
                         ) : (
                             <section>
-                                {data?.testes.map(({id,nome}) => (
-                                    <TopicItem 
+                                {data?.testes.map(({ id, nome }) => (
+                                    <TopicItem
                                         name={nome}
                                         type={TopicItemTypes.TESTE}
                                         color={data?.turma.cores.corSec}
                                         route={`testes/${id}`}
-                                    /> 
+                                    />
                                 ))}
                             </section>
                         )}

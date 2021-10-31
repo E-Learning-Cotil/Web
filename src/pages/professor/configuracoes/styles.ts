@@ -1,15 +1,11 @@
 import styled from 'styled-components';
 
 const Container = styled.div`
-    width: 60%;
-    height: 60vh;
-    margin: 30px 20% 30px 20%;
+    width: 80%;
+    margin: 30px 10% 30px 10%;
 `;
 
 const Title = styled.div`
-    display: grid;
-    place-items: center;
-
     h2 {
         font-family: ${props => props.theme.fonts.secondary};
         font-weight: 400;
@@ -25,14 +21,15 @@ const Title = styled.div`
 
 const ConfigDiv = styled.div`
     margin-top: 30px;
-    width: 100%;
-    height: 100%;
+    width: 60%;
+    height: 60vh;
+    margin-left: 20%;
     background-color: ${props => props.theme.colors.mediumDark};
 
     display: grid;
     grid-template-columns: 1fr 1fr;
     border-radius: 4px;
-`;
+    `;
 
 const ImageDiv = styled.div`
     position: relative;
@@ -42,32 +39,28 @@ const ImageDiv = styled.div`
     place-items: center;
     overflow: hidden;
     padding: 20px;
-
+    
     img{
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-        background: ${props => props.theme.colors.mediumDark};
+        z-index: 4;
+        width: calc(55vh - 90px);
+        height: calc(55vh - 90px);
         border-radius: 4px;
+        background: ${props => props.theme.colors.mediumDark};
+        object-fit: cover;
     }
 
-    input{
-        display: none;
-    }
-
-    label{
+    button{
         position: absolute;
+        z-index: 5;
+        top: calc(55vh - 90px);
+        right: 30px;
         background-color: rgba(0,0,0,0.7);
         border-radius: 4px;
         padding: 10px;
         cursor: pointer;
         border: 0;
-        bottom: 30px;
-        right: 30px;
     }
 `;
-
-
 
 const PropertyTitle = styled.h4`
     font-family: ${props => props.theme.fonts.primary};
@@ -76,59 +69,37 @@ const PropertyTitle = styled.h4`
     `;
 
 const PropertyData = styled.input`
-    width: 100%;
+    width: calc(30vw - 100px);
     box-sizing: border-box;
-    font-family: ${props => props.theme.fonts.primary};
+    font-family: ${props => props.theme.fonts.secondary};
     font-size: 18px;
     color: ${props => props.theme.colors.light};
 
     border: 0;
-    border-radius: 0;
+    background-color: transparent;
 
     outline: none;
-
-    background: ${props => props.theme.colors.mediumDark};
-
-    border-bottom: 1px solid ${props => props.theme.colors.light};
-
-    &:read-only{
-        border-bottom: 0;
-    }
     `;
 
 const DataFields = styled.form`
-    height: 100%;
+    margin-top: auto;
+    margin-bottom: auto;
+    height: 80%;
     width: 100%;
-    padding: 20px;
-
     display: flex;
+    margin-left: 20px;
+
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
-
     div div{
         display: flex;
         flex-direction: row;
     }
-`;
+    `;
 
-const InputBox = styled.div`
-    width: 100%;
-`;
-
-const ButtonsBox = styled.div`
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-`;
-
-interface EditButtonProps{
-    background: string;
-}
-
-const EditButton = styled.button<EditButtonProps>`
-    width: 100%;
+const EditButton = styled.button`
+    width: 50%;
     height: 40px;
 
     display: flex;
@@ -136,14 +107,14 @@ const EditButton = styled.button<EditButtonProps>`
     justify-content: center;
     cursor: pointer;
 
-    background-color: ${props => props.background};
+    background-color: ${props => props.theme.colors.primaryMedium};
 
     border: 0;
     border-radius: 4px;
 
     p {
         font-family: ${props => props.theme.fonts.secondary};
-        font-size: 20px;
+        font-size: 24px;
         color: ${props => props.theme.colors.light};
         margin-left: 10px;
     }
@@ -152,7 +123,7 @@ const EditButton = styled.button<EditButtonProps>`
 
 const PasswordButton = styled.button`
         border: 0;
-        background-color: transparent;
+        background-color: ${props => props.theme.colors.mediumDark};
         cursor: pointer;
         width: 20px;
         margin-right: 10px;
@@ -167,7 +138,5 @@ export {
     PropertyData,
     DataFields,
     EditButton,
-    PasswordButton,
-    InputBox,
-    ButtonsBox
+    PasswordButton
 };

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import {  Wrapper, ClassDetails } from "./styles";
 
-export default function Class({photo, name, id, color, teacher}){
+export default function Class({photo, name, id, color, subtitle}){
     return (
         <Link href={`turmas/${id}`}>
             <Wrapper>
@@ -13,7 +13,7 @@ export default function Class({photo, name, id, color, teacher}){
                     </div>
                     <section>
                         <p>{name}</p>
-                        <span>Professor(a): {teacher}</span>
+                        <span>{subtitle}</span>
                     </section>
                 </ClassDetails>
             </Wrapper>

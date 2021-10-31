@@ -15,7 +15,15 @@ import ClassSkeleton from "../../../components/ClassSkeleton";
 import Class from "../../../components/Class";
 
 export function Dashboard(props) {
-    const { data } = useFetch('/pagina-inicial');
+    const { data, error } = useFetch('/turmas/list-by-role');
+
+    useEffect(() => {
+        console.log(data)
+    }, [data])
+
+    useEffect(() => {
+        console.log(error?.response || "sem erro")
+    }, [error])
 
     return (
         <div>
@@ -24,12 +32,12 @@ export function Dashboard(props) {
             </Head>
 
             <Header 
-                primaryColor="#4AED64"
-                secondaryColor="#009418"
+                primaryColor="#9F18DF"
+                secondaryColor="#6C1795"
             />
 
             <Navigation>
-                <Link href="/aluno/atividades">
+                <Link href="/professor/atividades">
                     <NavLink>
                         <FontAwesomeIcon 
                             icon={faList}
@@ -40,7 +48,7 @@ export function Dashboard(props) {
                     </NavLink>
                 </Link>
 
-                <Link href="/aluno/turmas">
+                <Link href="/professor/turmas">
                     <NavLink>
                         <FontAwesomeIcon 
                             icon={faBook}
@@ -51,18 +59,7 @@ export function Dashboard(props) {
                     </NavLink>
                 </Link>
 
-                <Link href="/aluno/boletim">
-                    <NavLink>
-                        <FontAwesomeIcon 
-                            icon={faScroll}
-                            color={'#fff'}
-                            size="2x"
-                        />
-                        <p>Boletim</p>
-                    </NavLink>
-                </Link>
-
-                <Link href="/aluno/conversas">
+                <Link href="/professor/conversas">
                     <NavLink>
                         <FontAwesomeIcon 
                             icon={faCommentAlt}
@@ -74,10 +71,10 @@ export function Dashboard(props) {
                 </Link>
             </Navigation>
 
-            <Container>
+            {/* <Container>
                 <Title>
                     <h2>Atividades</h2>
-                    <div></div> {/* Title tip */}
+                    <div></div> 
                 </Title>
 
                 <Group>
@@ -104,12 +101,12 @@ export function Dashboard(props) {
                         )
                     ) }
                 </Group>
-            </Container>
+            </Container> */}
 
             <Container>
                 <Title>
-                    <h2>Turmas</h2>
-                    <div></div> {/* Title tip */}
+                    <h2>Suas turmas</h2>
+                    <div></div>
                 </Title>
 
                 <Group>
@@ -123,7 +120,7 @@ export function Dashboard(props) {
                             <ClassSkeleton />
                         </>
                     ) : (
-                        data.turmas.map((turma, index) =>{
+                        data.map((turma, index) =>{
                             console.log(turma);
                             return ( 
                                 <Class
@@ -132,13 +129,13 @@ export function Dashboard(props) {
                                     name={turma.nome}
                                     color={turma.cores.corPrim}
                                     photo={turma.icone.altLink}
-                                    subtitle={`Professor: ${turma.professor.nome}`}
+                                    subtitle={`${turma.serie.ano} ${turma.serie.sigla}`}
                                 />
                             )
                         })
                     ) }
                 </Group>
-            </Container>
+            </Container> 
         </div>
     )
 }

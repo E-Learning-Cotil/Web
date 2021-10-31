@@ -14,9 +14,10 @@ function Atividades(){
             <Head>
                 <title>Atividades | E-Learning</title>
             </Head>
-
-            <Header/>
-            
+            <Header
+                 primaryColor="#9F18DF"
+                 secondaryColor="#6C1795"
+            />
             <Container>
                 <Title>
                     <h2>Atividades</h2>

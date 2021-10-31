@@ -12,15 +12,15 @@ interface HeaderProps{
 }
 
 export default function Header({
-    primaryColor = "#4AED64", 
-    secondaryColor = "#009418"
+    primaryColor = "#6D6D6D", 
+    secondaryColor = "#454545"
 }: HeaderProps){
     const { signOut, user } = useContext(AuthContext)
     const [ isProfileOpenned, setIsProfileOpenned ] = useState(false)
 
     return (
         <Wrapper background={secondaryColor}>
-            <Link href="/aluno/dashboard">
+            <Link href={`/${user?.role.toLowerCase()}/dashboard`}>
                 <Trapezoid background={primaryColor}>
                     <div></div> 
                     <img src="/logo_and_name.png" alt="" />

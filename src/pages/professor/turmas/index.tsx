@@ -19,10 +19,9 @@ function Turmas(){
             </Head>
             
             <Header
-                primaryColor={"#0CBE29"}
-                secondaryColor={"#009418"}
+                 primaryColor="#9F18DF"
+                 secondaryColor="#6C1795"
             />
-
             <Container>
                 <Title>
                     <h2>Turmas</h2>
@@ -48,7 +47,7 @@ function Turmas(){
                                     name={turma.nome}
                                     color={turma.cores.corPrim}
                                     photo={turma.icone.altLink}
-                                    subtitle={`Professor(a): ${turma.professor.nome}`}
+                                    subtitle={turma.serie.ano + " " + turma.serie.sigla}
                                 />
                             )
                         })
