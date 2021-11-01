@@ -19,8 +19,8 @@ function Turmas(){
             </Head>
             
             <Header
-                primaryColor={"#0CBE29"}
-                secondaryColor={"#009418"}
+                primaryColor="#4AED64"
+                secondaryColor="#009418"
             />
 
             <Container>

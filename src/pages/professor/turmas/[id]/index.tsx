@@ -77,9 +77,9 @@ function TurmaEspecifica(){
 
                     <div>
                         <p>Descrição: </p> 
-                        <textarea onChange={(e) => setTopicDescription(e.target.value)}>
+                        <div contentEditable >
 
-                        </textarea>
+                        </div>
                     </div>
                     <div>
                         <CreateTopicButton 

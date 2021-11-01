@@ -18,6 +18,8 @@ const ClassName = styled.p`
 
 const CreateTopic = styled.div`
     width: 100%;
+    height: max-content;
+
     background: ${props => props.theme.colors.mediumDark};
     border-radius: 4px;
 
@@ -29,6 +31,8 @@ const CreateTopic = styled.div`
     font-size: 20px;
 
     div{
+        height: max-content;
+
         input{
             width: 100%;
             background: ${props => props.theme.colors.mediumDark};
@@ -38,14 +42,18 @@ const CreateTopic = styled.div`
             font-size: 16px;
 
             border: 0;
-            border-bottom: 1px solid ${props => props.theme.colors.light};
+            border-radius: 0;
+            border-bottom: 1px solid #ccc;
             
             outline: ${props => props.theme.colors.mediumDark};
             margin-bottom: 10px;
         }
 
-        textarea{
-            width: 100%;
+        div[contenteditable]{
+            width: calc(100% + 15px);
+            height: auto;
+            min-height: 100px;
+            overflow: auto;
             outline: ${props => props.theme.colors.mediumDark};
             resize: none;
             border: 0;
@@ -56,9 +64,14 @@ const CreateTopic = styled.div`
             font-family: ${props => props.theme.fonts.primary};
             font-size: 16px;
 
-            line-height: 4ch;
-            background-image: linear-gradient(transparent, transparent calc(4ch - 1px), #fff 0px);
-            background-size: 100% 4ch;
+            background-attachment: local;
+            background-image:
+                linear-gradient(to right, #3D3D3D 10px, transparent 10px),
+                linear-gradient(to left, #3D3D3D 10px, transparent 10px),
+                repeating-linear-gradient(#3D3D3D, #3D3D3D 30px, #ccc 30px, #ccc 31px, #3D3D3D 31px);
+            line-height: 31px;
+            padding: 5px 0 0 10px;
+            margin-left: -10px;
 
         }
     }
@@ -71,8 +84,7 @@ interface CreateTopicButtonProps {
 const CreateTopicButton = styled.div<CreateTopicButtonProps>`
     margin-left: calc(80% - 10px);
     margin-top: 20px;
-    width: 20%;
-    height: 40px;
+    padding: 5px 10px 5px 10px;
     display: flex;
     align-items: center;
     justify-content: center;
