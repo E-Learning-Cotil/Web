@@ -105,6 +105,15 @@ function Configuracoes() {
           idSerie: userData.idSerie
         });
 
+        console.log({
+            nome: userData.name,
+            telefone: userData.telephone,
+            email: userData.email,
+            foto: userData.photo,
+            senha: userData.password,
+            idSerie: userData.idSerie
+          })
+
         toast.success("Aluno alterado com sucesso!", {
           position: "top-right",
           autoClose: 5000,
@@ -126,7 +135,6 @@ function Configuracoes() {
           progress: undefined,
         });
       }
-      console.log(userData);
     }
   }
 
