@@ -1,22 +1,19 @@
 import Header from "../../../components/Header";
 import withAuthSSG from "../../../hoc/withAuthSSG";
-import ClassSkeleton from "../../../components/ClassSkeleton";
-import ActivitySkeleton from "../../../components/ActivitySkeleton";
-import Class from "../../../components/Class";
-import Activity from "../../../components/Activity";
-import { useFetch } from "../../../hooks/useFetch";
 import Head from "next/head";
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ToastContainer, toast } from 'react-toastify';
 import {
   faCamera,
   faPencilAlt,
   faEye,
   faEyeSlash,
+  faCheck,
+  faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import { api } from "../../../services/api";
-import { useDropzone } from "react-dropzone";
 
 import {
   Container,
@@ -26,9 +23,13 @@ import {
   PropertyTitle,
   PropertyData,
   DataFields,
+  InputBox,
   EditButton,
   PasswordButton,
+  ButtonsBox
 } from "./styles";
+
+import 'react-toastify/dist/ReactToastify.css';
 
 function Configuracoes() {
   const { user } = useContext(AuthContext);
@@ -36,6 +37,7 @@ function Configuracoes() {
   const [isReadOnly, setIsReadOnly] = useState(true);
   const [inputType, setInputType] = useState("password");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [newFile, setNewFile] = useState(null);
   const [userData, setUserData] = useState({
     email: "",
     photo: "",
@@ -43,9 +45,7 @@ function Configuracoes() {
     role: "",
     telephone: "",
     password: "",
-    idSerie: 1,
   });
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
 
   useEffect(() => {
     user &&
@@ -55,19 +55,16 @@ function Configuracoes() {
         name: user?.nome,
         role: user?.role,
         telephone: user?.telefone,
-        //password: "********",
-        password: "123456",
-        //idSerie: user?.idSerie
-        idSerie: 1,
+        password: "********",
       });
   }, [user]);
 
   useEffect(() => {
     (async () => {
-      if (acceptedFiles[0]) {
+      if (newFile) {
         const formData = new FormData();
 
-        formData.append("file", acceptedFiles[0]);
+        formData.append("file", newFile);
 
         const { data: uploadedFile } = await api.post("/arquivos", formData, {
           headers: {
@@ -76,6 +73,8 @@ function Configuracoes() {
           },
         });
 
+        console.log(uploadedFile);
+
         user &&
           setUserData({
             ...userData,
@@ -83,34 +82,58 @@ function Configuracoes() {
           });
       }
     })();
-  }, [acceptedFiles]);
+  }, [newFile]);
 
   async function updateStudentData() {
+    setUserData({
+      ...userData,
+      password: isReadOnly ? "" : "********"
+    });
+
     setIsReadOnly(!isReadOnly);
-    if (isReadOnly) {
-        
-    } else {
+    if (!isReadOnly){
+
       try {
-        const { data: responseMessage } = await api.put("/alunos", {
+        const { data: responseMessage } = await api.put("/professores", {
           nome: userData.name,
           telefone: userData.telephone,
           email: userData.email,
           foto: userData.photo,
           senha: userData.password,
-          idSerie: userData.idSerie,
+        });
+
+        toast.success("Professor alterado com sucesso!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
         });
       } catch (error) {
         console.log(error.response);
+        toast.error("Ocorreu um erro ao alterar professor!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
       console.log(userData);
-      //mandar para o banco
     }
   }
 
   function changePasswordState() {
     setIsPasswordVisible(!isPasswordVisible);
-    if (inputType === "password") setInputType("text");
-    else setInputType("password");
+    if(inputType === "password"){
+      setInputType("text");
+    }else {
+      setInputType("password");
+    }
   }
 
   return (
@@ -119,29 +142,35 @@ function Configuracoes() {
         <title>Configurações | E-Learning</title>
       </Head>
 
-      <Header />
+      <Header 
+        //primaryColor={data?.turma.cores.corPrim || "#6D6D6D"}
+        //secondaryColor={data?.turma.cores.corSec || "#454545"}
+      />
+
       <Container>
         <Title>
           <h2>Configurações</h2>
         </Title>
 
         <ConfigDiv>
-          {!isReadOnly ? (
-            <ImageDiv {...getRootProps({ className: "dropzone" })}>
-              <input {...getInputProps()} />
-              <img src={`${userData?.photo}`} alt="perfil" />
-              <button type="button">
-                <FontAwesomeIcon icon={faCamera} color="#fff" size="2x" />
-              </button>
-            </ImageDiv>
-          ) : (
-            <ImageDiv>
-              <img src={`${userData?.photo}`} alt="perfil" />
-            </ImageDiv>
-          )}
+          <ImageDiv>
+            <img src={userData?.photo} alt={userData?.name} />
+            {!isReadOnly && (
+              <>
+                <input 
+                  type="file"
+                  id="change-user-image"
+                  onChange={e => setNewFile(e.target.files[0])}
+                />
+                <label htmlFor="change-user-image">
+                  <FontAwesomeIcon icon={faCamera} color="#fff" size="2x" />
+                </label>
+              </>
+            )}
+          </ImageDiv>
 
           <DataFields>
-            <div>
+            <InputBox>
               <PropertyTitle>Nome:</PropertyTitle>
               <PropertyData
                 type="text"
@@ -151,9 +180,9 @@ function Configuracoes() {
                   setUserData({ ...userData, name: e.target.value })
                 }
               />
-            </div>
+            </InputBox>
 
-            <div>
+            <InputBox>
               <PropertyTitle>Telefone:</PropertyTitle>
               <PropertyData
                 type="tel"
@@ -163,30 +192,35 @@ function Configuracoes() {
                   setUserData({ ...userData, telephone: e.target.value })
                 }
               />
-            </div>
+            </InputBox>
 
-            <div>
+            <InputBox>
               <PropertyTitle>Senha:</PropertyTitle>
               <div>
                 <PropertyData
                   type={inputType}
                   value={`${userData?.password}`}
                   readOnly={isReadOnly}
+                  placeholder="Deixe vazio para manter a senha atual!"
                   onChange={(e) =>
                     setUserData({ ...userData, password: e.target.value })
                   }
                 />
-                <PasswordButton type="button" onClick={changePasswordState}>
-                  <FontAwesomeIcon
-                    icon={isPasswordVisible ? faEye : faEyeSlash}
-                    color="#fff"
-                    size="1x"
-                  />
-                </PasswordButton>
+                  {!isReadOnly && (
+                    <PasswordButton 
+                      type="button" 
+                      onClick={changePasswordState}>
+                        <FontAwesomeIcon
+                          icon={isPasswordVisible ? faEye : faEyeSlash}
+                          color="#fff"
+                          size="1x"
+                        />
+                    </PasswordButton>
+                  )}
               </div>
-            </div>
+            </InputBox>
 
-            <div>
+            <InputBox>
               <PropertyTitle>Email:</PropertyTitle>
               <PropertyData
                 type="email"
@@ -196,14 +230,48 @@ function Configuracoes() {
                   setUserData({ ...userData, email: e.target.value })
                 }
               />
-            </div>
-            <EditButton type="button" onClick={updateStudentData}>
-              <FontAwesomeIcon icon={faPencilAlt} color="#fff" size="2x" />
-              <p>Editar</p>
-            </EditButton>
+            </InputBox>
+            
+            {isReadOnly ? (
+              <EditButton 
+                background="#0CBE29"
+                type="button" 
+                onClick={updateStudentData}
+              >
+                <FontAwesomeIcon icon={faPencilAlt} color="#fff" size="2x" />
+                <p>Editar</p>
+              </EditButton>
+            ) : (
+                <ButtonsBox>
+                <EditButton 
+                  background="#be120c"
+                  type="button" 
+                  onClick={() => {
+                    setIsReadOnly(true);
+                    setUserData({
+                      ...userData,
+                      password: "********"
+                    });
+                  }}
+                >
+                  <FontAwesomeIcon icon={faTimes} color="#fff" size="2x" />
+                  <p>Cancelar</p>
+                </EditButton>
+                <EditButton 
+                  background="#0CBE29"
+                  type="button"
+                  onClick={updateStudentData}
+                >
+                  <FontAwesomeIcon icon={faCheck} color="#fff" size="2x" />
+                  <p>Salvar</p>
+                </EditButton>
+              </ButtonsBox>
+            )}
           </DataFields>
         </ConfigDiv>
       </Container>
+
+      <ToastContainer />
     </div>
   );
 }
