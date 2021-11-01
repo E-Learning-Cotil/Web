@@ -2,7 +2,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment } from '@fortawesome/free-solid-svg-icons';
 
 import { Container } from "./styles";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 
 interface ContactProps{
     img: string;
@@ -15,20 +16,19 @@ interface ContactProps{
 }
 
 export default function Contact({img, name, lastMsg, hasNewMsgs, id, setAsSelected, selectedId}: ContactProps){
+    const { user } = useContext(AuthContext);
     const [isSelected, setIsSelected] = useState(false);
 
     useEffect(() => {
-        if(id === selectedId){
-            setIsSelected(true);
-        }else{
-            setIsSelected(false);
-        }
+        setIsSelected(id === selectedId);
     }, [selectedId])
 
     return (
         <Container
             onClick={() => setAsSelected(id)}
             isSelected={isSelected}
+            color={user.role === "PROFESSOR" ? "#6C1795" : "#009418"}
+            secondaryColor={user.role === "PROFESSOR" ? "#9F18DF" : "#0CBE29"}
         >
             <img src={img} alt={name} />
             <div>

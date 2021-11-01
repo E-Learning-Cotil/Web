@@ -41,21 +41,21 @@ export function Conversas() {
     }
 
     useEffect(() => {
+        socket.emit("identify", { token });
         socket.on("conversations", setConversations);
         socket.on("previous_messages", setMessages);
-        socket.emit("identify", { token });
         socket.on("new_message", ([data]) => {
             console.log("Called");
             console.log(data);
             setMessages(prevMessages => {
-                if((data.origem.identity === selectedRef.current) || (data.origem.role === "ALUNO")){
+                if((data.origem.identity === selectedRef.current) || (data.origem.role === "PROFESSOR")){
                     return [...prevMessages, data]
                 }else{
                     playSoundNotification();
 
                     setConversations((prevConversations) => {
                         const updatedContacts = prevConversations.map(contact => {
-                            if(contact.rgProfessor === data.origem.identity) {
+                            if(contact.raAluno === data.origem.identity) {
                                 contact.mensagem = data.mensagem;
                                 contact.data = data.data;
                                 contact.hasNewMsgs = true;
@@ -76,7 +76,7 @@ export function Conversas() {
     useEffect(() => {
         setConversations((prevConversations) => {
             const updatedContacts = prevConversations.map(contact => {
-                if(contact.rgProfessor === selectedRef.current) {
+                if(selectedRef.current === contact.raAluno) {
                     contact.mensagem = messages[messages.length-1].mensagem;
                     contact.data = messages[messages.length-1].data;
                 }
@@ -97,7 +97,7 @@ export function Conversas() {
         socket.emit("open_chat", {otherUser: selectedRef.current, token});
         setConversations((prevConversations) => {
             const updatedContacts = prevConversations.map(contact => {
-                if(contact.rgProfessor === selectedRef.current) {
+                if(contact.raAluno === selectedRef.current) {
                     contact.hasNewMsgs = false;
                 }
     
@@ -136,7 +136,10 @@ export function Conversas() {
                 <title>Conversas | E-Learning</title>
             </Head>
 
-            <Header />
+            <Header 
+                primaryColor="#9F18DF"
+                secondaryColor="#6C1795"
+            />
 
             <Container>
                 <Title>
@@ -161,9 +164,9 @@ export function Conversas() {
                             ) : conversations.map((contact, index) => (
                                 <Contact 
                                     key={index}
-                                    id={contact.rgProfessor}
-                                    name={contact.professor.nome}
-                                    img={contact.professor.foto}
+                                    id={contact.raAluno}
+                                    name={contact.aluno.nome}
+                                    img={contact.aluno.foto}
                                     lastMsg={contact.mensagem}
                                     hasNewMsgs={contact.hasNewMsgs}
                                     setAsSelected={setSelected}
@@ -172,6 +175,7 @@ export function Conversas() {
                             ))
                         }
                     </Contacts>
+
 
                     {selectedState === null ? (
                         <SelectConversation>
@@ -193,6 +197,7 @@ export function Conversas() {
                                         msg={msg.mensagem}
                                         date={msg.data}
                                         isMine={user.role === msg.origem.role}
+                                        color="#6C1795"
                                     />
                                 ))}
                             </Messages>
@@ -207,7 +212,7 @@ export function Conversas() {
                                 <button onClick={() => sendNewMessage()}>
                                     <FontAwesomeIcon
                                         icon={faPaperPlane}
-                                        color="#4AED64"
+                                        color="#9F18DF"
                                         size="lg"
                                     />
                                 </button>
@@ -215,7 +220,7 @@ export function Conversas() {
                         </MessagesBox>
                     )}
                 </ChatDiv>
-            </Container>
+            </Container> 
         </div>
     )
 }
