@@ -143,8 +143,8 @@ function Configuracoes() {
       </Head>
 
       <Header 
-        //primaryColor={data?.turma.cores.corPrim || "#6D6D6D"}
-        //secondaryColor={data?.turma.cores.corSec || "#454545"}
+        primaryColor={"#9F18DF"}
+        secondaryColor={"#6C1795"}
       />
 
       <Container>
