@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useRouter } from 'next/router'
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Header from "../../../../components/Header";
 import Icon from "../../../../components/Icon";
 import Topic from "../../../../components/Topic";
@@ -10,15 +10,36 @@ import TopicSkeleton from "../../../../components/TopicSkeleton";
 
 import { Title, Container,ClassName, CreateTopic, CreateTopicButton } from "./styles";
 import ShimmerEffect from "../../../../components/ShimmerEffect";
+import { api } from "../../../../services/api";
 
 function TurmaEspecifica(){
     const {query: { id }} = useRouter();
+    const [topicTitle, setTopicTitle] = useState(null);
+    const [topicDescription, setTopicDescription] = useState(null);
 
     const { data } = useFetch(`/turmas/${id}`);
 
     useEffect(() => {
         console.log(data);
     }, [data])
+
+    async function createNewTopic(){
+        const newTopic = {
+            nome : topicTitle,
+            descricao: topicDescription,
+            idTurma: data.id
+        }
+
+        if((topicDescription === null) || (topicTitle === null)) return;
+        
+        try{
+            const { data: responseMessage} = await api.post("/topicos", newTopic);
+            console.log(responseMessage);
+        }
+        catch (error){
+            console.log(error);
+        }
+    }
 
     return(
         <div>
@@ -51,14 +72,22 @@ function TurmaEspecifica(){
                 <CreateTopic>
                     <div>
                         <p>Título: </p> 
-                        <input type="text"/>
+                        <input type="text" onChange={(e) => setTopicTitle(e.target.value)}/>
                     </div>
 
                     <div>
                         <p>Descrição: </p> 
-                        <textarea>
+                        <textarea onChange={(e) => setTopicDescription(e.target.value)}>
 
                         </textarea>
+                    </div>
+                    <div>
+                        <CreateTopicButton 
+                            background={data?.cores.corPrim || "#6D6D6D"}
+                            onClick={createNewTopic}
+                        >
+                            Criar
+                        </CreateTopicButton>
                     </div>
                 </CreateTopic>
 

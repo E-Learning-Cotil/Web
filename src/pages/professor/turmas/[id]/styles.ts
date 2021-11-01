@@ -64,7 +64,31 @@ const CreateTopic = styled.div`
     }
 `;
 
-const CreateTopicButton = styled.div`
+interface CreateTopicButtonProps {
+    background : string;
+}
+
+const CreateTopicButton = styled.div<CreateTopicButtonProps>`
+    margin-left: calc(80% - 10px);
+    margin-top: 20px;
+    width: 20%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    background-color: ${props => props.background};
+
+    border: 0;
+    border-radius: 4px;
+
+    p {
+        font-family: ${props => props.theme.fonts.secondary};
+        font-size: 20px;
+        color: ${props => props.theme.colors.light};
+        margin-left: 10px;
+    }
 `;
 
 export {
