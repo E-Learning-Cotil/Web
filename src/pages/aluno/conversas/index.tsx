@@ -136,7 +136,10 @@ export function Conversas() {
                 <title>Conversas | E-Learning</title>
             </Head>
 
-            <Header />
+            <Header 
+                primaryColor="#4AED64"
+                secondaryColor="#009418"
+            />
 
             <Container>
                 <Title>
