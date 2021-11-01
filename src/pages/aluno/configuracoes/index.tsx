@@ -145,7 +145,10 @@ function Configuracoes() {
         <title>Configurações | E-Learning</title>
       </Head>
 
-      <Header />
+      <Header 
+        primaryColor="#4AED64"
+        secondaryColor="#009418"
+      />
 
       <Container>
         <Title>
