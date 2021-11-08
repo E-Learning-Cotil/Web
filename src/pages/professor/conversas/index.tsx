@@ -185,7 +185,7 @@ export function Conversas() {
                                     color="#fff"
                                     size="5x"
                                 />
-                                <h2>Selecione uma conversa</h2>
+                                <h2>Selecione uma wdlçadakl,awklç,</h2>
                             </div>
                         </SelectConversation>
                     ) : (

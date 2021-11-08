@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
@@ -57,16 +58,21 @@ function AtividadeEspecifica(){
                             <>
                                 <nav>
                                     <h2>{data?.nome}</h2>
-                                    <Inbox
-                                        background={data?.topico.turma.cores.corSec}
+                                    <Link 
+                                        href={{ pathname: "entregues", query: { id } }} 
+                                        as="entregues"
                                     >
-                                        <h6>{data?._count.atividadesAlunos}</h6>
-                                        <FontAwesomeIcon 
-                                            icon={faInbox}
-                                            color={'#fff'}
-                                            size="1x"
-                                        />
-                                    </Inbox>
+                                        <Inbox
+                                            background={data?.topico.turma.cores.corSec}
+                                        >
+                                            <h6>{data?._count.atividadesAlunos}</h6>
+                                            <FontAwesomeIcon 
+                                                icon={faInbox}
+                                                color={'#fff'}
+                                                size="1x"
+                                            />
+                                        </Inbox>
+                                    </Link>
                                 </nav>
                                 <h4>{data?.topico.nome}</h4>
                             </>

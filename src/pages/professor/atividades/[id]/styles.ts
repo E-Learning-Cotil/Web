@@ -68,7 +68,7 @@ interface InputColorProps{
     background: string;
 }
 
-const Inbox = styled.section<InputColorProps>`
+const Inbox = styled.address<InputColorProps>`
     background: ${props => props.background};
     padding: 5px 10px 5px 10px;
     border-radius: 2px;

@@ -80,7 +80,7 @@ export default function Login() {
   return (
     <div>
       <Head>
-        <title>Login | E-Learning</title>
+        <title>Login | djwanndajknjkawndnajkn</title>
       </Head>
       
       <Header>
