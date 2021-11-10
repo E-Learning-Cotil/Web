@@ -4,7 +4,6 @@ import { AuthContext } from "../../contexts/AuthContext"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Wrapper, ProfilePic, Trapezoid, ProfileButton, Triangle, MiniProfile, ControlButton, ProfileName, ProfileEmail, Text } from "./styles";
 import { faPencilAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
-import { SpawnSyncOptionsWithBufferEncoding } from "child_process";
 
 interface HeaderProps{
     primaryColor?: string;

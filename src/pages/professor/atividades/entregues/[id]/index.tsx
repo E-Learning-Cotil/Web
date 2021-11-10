@@ -11,7 +11,7 @@ import { useFetch } from "../../../../../hooks/useFetch";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment } from '@fortawesome/free-solid-svg-icons';
 
-import { Container, Title, Grid, Content, ContentHeader, ContentFooter, Grade, SaveButton, Students, StudentData } from './styles';
+import { Container, Title, Grid, Content, ContentHeader, ContentFooter, Grade, SaveButton, Students, StudentData, Iframe } from './styles';
 
 export function Entregues(props) {
     const { query: {id} } = useRouter();
@@ -32,31 +32,28 @@ export function Entregues(props) {
 
             <Container>
                 <Title>
-                    <div>
-                        <img src="" alt="" />
-                    </div>
-                    <section>
-                        <h2>Nome da atividade</h2>
-                        <h4>Nome do tópico</h4>
-                    </section>
+                    <h2>Nome da atividade</h2>
+                    <h4>Nome do tópico</h4>
                 </Title>
 
                 <Grid>
                     <Content>
                         <ContentHeader>
                             <section>
-                                <img src="" alt="" />
-                                <h2>Teste</h2>
+                                <img src="https://i.imgur.com/bHx9lr1.jpg" alt="João Cléber" />
+                                <h2>João Cléber</h2>
                             </section>
-                            <nav>
-                                <FontAwesomeIcon 
-                                    icon={faComment}
-                                    color={'#fff'}
-                                    size="2x"
-                                />
-                            </nav>
+                            <Link href="#">
+                                <a>
+                                    <FontAwesomeIcon 
+                                        icon={faComment}
+                                        color={'#fff'}
+                                        size="1x"
+                                    />
+                                </a>
+                            </Link>
                         </ContentHeader>
-                        <iframe src="https://www.comvest.unicamp.br/wp-content/uploads/2021/07/Edital_VU_2022.pdf"></iframe>
+                        <Iframe src="https://www.comvest.unicamp.br/wp-content/uploads/2021/07/Edital_VU_2022.pdf" width="100px"></Iframe>
                         <ContentFooter>
                             <Grade>
                                 <label htmlFor="">Nota: </label>
@@ -71,11 +68,10 @@ export function Entregues(props) {
                         </ContentFooter>
                     </Content>
                     <Students>
-                        <StudentData />
-                        <StudentData />
-                        <StudentData />
-                        <StudentData />
-                        <StudentData />
+                        <StudentData>
+                            <img src="https://i.imgur.com/bHx9lr1.jpg" alt="João Cléber" />
+                            <p>João Cléber</p>
+                        </StudentData>
                     </Students>
                 </Grid>
                 

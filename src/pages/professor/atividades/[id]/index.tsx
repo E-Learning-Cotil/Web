@@ -59,8 +59,7 @@ function AtividadeEspecifica(){
                                 <nav>
                                     <h2>{data?.nome}</h2>
                                     <Link 
-                                        href={{ pathname: "entregues", query: { id } }} 
-                                        as="entregues"
+                                        href={`entregues/${id}`}
                                     >
                                         <Inbox
                                             background={data?.topico.turma.cores.corSec}
