@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 
 const Container = styled.div`
     width: 80%;
@@ -83,17 +83,30 @@ const InputBox = styled.div`
     }
 `;
 
-const SelectConversation = styled.div`
+interface EmptyMessageProps{
+    hasLeftBorder: boolean;
+}
+
+const EmptyMessage = styled.div<EmptyMessageProps>`
     width: 100%;
     height: 100%;
-    border-left: 1px solid ${props => props.theme.colors.light};
-    display: grid;
-    place-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-    div{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    ${props => props.hasLeftBorder && css`
+        border-left: 1px solid ${props => props.theme.colors.light};
+    `}
+
+    img{
+        width: 150px;
+    }
+
+    h2{
+        font-size: 24px;
+        font-weight: 400;
+        font-family: ${props => props.theme.fonts.secondary};
     }
 `;
 
@@ -105,5 +118,5 @@ export {
     MessagesBox,
     Messages,
     InputBox,
-    SelectConversation
+    EmptyMessage
 }

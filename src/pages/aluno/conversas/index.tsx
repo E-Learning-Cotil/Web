@@ -14,7 +14,7 @@ import Contact from "../../../components/Contact";
 import ContactSkeleton from "../../../components/ContactSkeleton";
 import Message from "../../../components/Message";
 
-import { Container, Title, ChatDiv, Contacts, Messages, MessagesBox, InputBox, SelectConversation } from "./styles";
+import { Container, Title, ChatDiv, Contacts, Messages, MessagesBox, InputBox, EmptyMessage } from "./styles";
 import { useEffect } from "react";
 
 import { parseCookies } from "nookies";
@@ -76,7 +76,7 @@ export function Conversas() {
     useEffect(() => {
         setConversations((prevConversations) => {
             const updatedContacts = prevConversations.map(contact => {
-                if(contact.rgProfessor === selectedRef.current) {
+                if(contact.rgProfessor === selectedRef.current && messages.length > 0) {
                     contact.mensagem = messages[messages.length-1].mensagem;
                     contact.data = messages[messages.length-1].data;
                 }
@@ -177,28 +177,29 @@ export function Conversas() {
                     </Contacts>
 
                     {selectedState === null ? (
-                        <SelectConversation>
-                            <div>
-                                <FontAwesomeIcon
-                                    icon={faCommentAlt}
-                                    color="#fff"
-                                    size="5x"
-                                />
-                                <h2>Selecione uma conversa</h2>
-                            </div>
-                        </SelectConversation>
+                        <EmptyMessage hasLeftBorder>
+                            <img src="/select_conversation_green.svg" alt="Selecione uma conversa" />
+                            <h2>Selecione uma conversa</h2>
+                        </EmptyMessage>
                     ) : (
                         <MessagesBox>
                             <Messages ref={messageBoxRef}>
-                                {messages.map((msg, index)=> (
-                                    <Message 
-                                        key={index}
-                                        msg={msg.mensagem}
-                                        date={msg.data}
-                                        isMine={user.role === msg.origem.role}
-                                        color="#009418"
-                                    />
-                                ))}
+                                {
+                                    messages.length === 0 ? (
+                                        <EmptyMessage hasLeftBorder={false}>
+                                            <img src="/start_conversation_green.svg" alt="Começar a conversar" />
+                                            <h2>Começar a conversar</h2>
+                                        </EmptyMessage>
+                                    ) : messages.map((msg, index)=> (
+                                        <Message 
+                                            key={index}
+                                            msg={msg.mensagem}
+                                            date={msg.data}
+                                            isMine={user.role === msg.origem.role}
+                                            color="#009418"
+                                        />
+                                    ))
+                                }
                             </Messages>
                             <InputBox>
                                 <input 
