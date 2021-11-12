@@ -1,4 +1,9 @@
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
+
+interface ColorsProps {
+    primaryColor: string;
+    secondaryColor: string;
+}
 
 const Container = styled.div`
     width: 80%;
@@ -31,7 +36,7 @@ const Dates = styled.div`
     display: flex;
 `;
 
-const Date = styled.div`
+const DateDiv = styled.div`
     margin-left: 10px;
 
     label{
@@ -55,7 +60,7 @@ const Date = styled.div`
     }
 `;
 
-const ContentTitle = styled.section`
+const ContentTitle = styled.section<ColorsProps>`
     margin-top: 30px;
     width: 100%;
     padding: 10px;
@@ -78,13 +83,13 @@ const ContentTitle = styled.section`
     button{
         padding: 5px 20px 5px 20px;
         border: none;
-        background: blue;
+        background: ${props => props.primaryColor};
         color: ${props => props.theme.colors.light};
         font-family: ${props => props.theme.fonts.primary};
-        box-shadow: 0 4px darkblue;
+        box-shadow: 0 4px ${props => props.secondaryColor};
 
         &:active{
-            box-shadow: 0 2px darkblue;
+            box-shadow: 0 2px ${props => props.secondaryColor};
             transform: translateY(2px);
         }
     }
@@ -149,7 +154,11 @@ const Answers = styled.div`
     }
 `;
 
-const Answer = styled.div`
+interface AnswerProps{
+    selected: boolean;
+}
+
+const Answer = styled.div<AnswerProps>`
     margin-top: 10px;
     width: 100%;
     display: flex;
@@ -159,9 +168,14 @@ const Answer = styled.div`
     background: ${props => props.theme.colors.dark};
     border-radius: 2px;
     font-size: 14px;
+    cursor: pointer;
+
+    ${props => props.selected && css`
+        background: #0b8f04;
+    `}
 `;
 
-const NewAnswer = styled.div`
+const NewAnswer = styled.div<ColorsProps>`
     margin-top: 10px;
     display: flex;
     align-items: center;
@@ -183,7 +197,7 @@ const NewAnswer = styled.div`
         height: 30px;
         padding: 0 10px 0 10px;
         border: none;
-        background: blue;
+        background: ${props => props.primaryColor};
         color: ${props => props.theme.colors.light};
         font-family: ${props => props.theme.fonts.primary};
         cursor: pointer;
@@ -196,6 +210,11 @@ const Image = styled.div`
     h3{
         font-family: ${props => props.theme.fonts.secondary};
         font-weight: 400;
+    }
+
+    img{
+        width: 100%;
+        margin-top: 15px;
     }
 `;
 
@@ -210,21 +229,21 @@ const Dropzone = styled.div`
     cursor: pointer;
 `;
 
-const CreateButton = styled.button`
+const CreateButton = styled.button<ColorsProps>`
     margin-top: 20px;
     width: 100%;
     padding: 10px 0 10px 0;
     border: none;
     border-radius: 4px;
-    background: blue;
+    background: ${props => props.primaryColor};
     font-family: ${props => props.theme.fonts.primary};
     font-size: 16px;
     color: ${props => props.theme.colors.light};
     cursor: pointer;
-    box-shadow: 0 4px darkblue;
+    box-shadow: 0 4px ${props => props.secondaryColor};
 
     &:active{
-        box-shadow: 0 2px darkblue;
+        box-shadow: 0 2px ${props => props.secondaryColor};
         transform: translateY(2px);
     }
 `;
@@ -245,6 +264,11 @@ const Question = styled.div`
         font-family: ${props => props.theme.fonts.secondary};
         font-weight: 400;
     }
+
+    img{
+        width: 100%;
+        margin-top: 20px;
+    }
 `;
 
 const QuestionAnswer = styled.div`
@@ -258,7 +282,7 @@ const QuestionAnswer = styled.div`
     }
 `;
 
-const DeleteQuestion = styled.div`
+const DeleteQuestion = styled.div<ColorsProps>`
     position: absolute;
     top: 0;
     right: 0;
@@ -266,8 +290,8 @@ const DeleteQuestion = styled.div`
     height: 30px;
     display: grid;
     place-items: center;
-    background: blue;
-    border-radius: 0 4px 0 4px;
+    background: ${props => props.primaryColor};
+    border-radius: 0 4px 0 8px;
     cursor: pointer;
 `;
 
@@ -276,7 +300,7 @@ export {
     Title,
     ContentHeader,
     Dates,
-    Date,
+    DateDiv,
     ContentTitle,
     Grid,
     FakeGridDiv,
