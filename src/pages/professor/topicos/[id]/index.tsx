@@ -62,7 +62,7 @@ function TopicoEspecifico() {
 
                     <CreateButtonsBox>
                         <CreateButton color={data?.turma.cores.corSec || "#454545"}>
-                            <Link href={`/criar-teste`}>
+                            <Link href={`/professor/criar-teste`}>
                                 <div>
                                     <FontAwesomeIcon 
                                         icon={faCheckSquare}
@@ -74,7 +74,7 @@ function TopicoEspecifico() {
                             </Link>
                         </CreateButton>
                         <CreateButton color={data?.turma.cores.corSec || "#454545"}>
-                            <Link href={`/criar-atividade`}>
+                            <Link href={`/professor/criar-atividade`}>
                                 <div>
                                     <FontAwesomeIcon 
                                         icon={faListUl}
@@ -86,7 +86,7 @@ function TopicoEspecifico() {
                             </Link>
                         </CreateButton>
                         <CreateButton color={data?.turma.cores.corSec || "#454545"}>
-                            <Link href={`/criar-material`}>
+                            <Link href={`/professor/criar-material`}>
                                 <div>
                                     <FontAwesomeIcon 
                                         icon={faBook}
