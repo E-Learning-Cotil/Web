@@ -17,6 +17,8 @@ export function Entregues(props) {
     const { query: {id} } = useRouter();
     const {data} = useFetch(`/atividades-aluno?idAtividade=${id}`);
 
+    const [selected, setSelected] = useState(null);
+
     useEffect(() => {console.log(data)}, [data])
 
     return (
@@ -43,7 +45,7 @@ export function Entregues(props) {
                                 <img src="https://i.imgur.com/bHx9lr1.jpg" alt="João Cléber" />
                                 <h2>João Cléber</h2>
                             </section>
-                            <Link href="#">
+                            <Link href="/professor/conversas?idAluno=1">
                                 <a>
                                     <FontAwesomeIcon 
                                         icon={faComment}

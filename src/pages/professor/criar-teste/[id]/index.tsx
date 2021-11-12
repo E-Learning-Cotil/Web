@@ -421,22 +421,3 @@ export function CriarTeste(props) {
 }
 
 export default withAuthSSG(CriarTeste);
-
-/*
-
-{
-    "pergunta":"O que é que é, cai em pé e corre deitado?",
-    "imagem":"https://www.geniol.com.br/media/charadas/charadas/auto/138-o-que-cai-em-pe-e-corre-deitado-square.png",
-    "certo": 1, 
-    "alternativas": [
-        {"texto":"Avião"},
-        {"texto":"Avião"},
-        {"texto":"Avião"},
-        {"texto":"Avião"},
-        {"texto":"Avião"}
-    ]
-}
-
-[{"pergunta":"O que é que é, cai em pé e corre deitado?","imagem":"https://www.geniol.com.br/media/charadas/charadas/auto/138-o-que-cai-em-pe-e-corre-deitado-square.png","certo": 1, "alternativas":[{"texto":"Avião"},{"texto":"Avião"},{"texto":"Avião"},{"texto":"Avião"},{"texto":"Avião"}]},
-{"pergunta":"Pergunta número 2","imagem": null, "certo": 4, "alternativas":[{"texto":"Alternativa 1"},{"texto":"Alternativa 2"},{"texto":"Alternativa 3"},{"texto":"Alternativa 4"},{"texto":"Alternativa 5"}]}]
-*/
