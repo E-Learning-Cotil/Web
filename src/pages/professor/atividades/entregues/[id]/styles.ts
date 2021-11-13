@@ -34,7 +34,7 @@ const Content = styled.div`
     padding: 20px;
 `;
 
-const ContentHeader = styled.div`
+const ContentHeader = styled.div<ColorsProps>`
     width: 100%;
     height: 32px;
     display: flex;
@@ -61,14 +61,21 @@ const ContentHeader = styled.div`
 
     }
 
-    a{
-        display: block;
-        width: 32px;
-        height: 32px;
-        border-radius: 4px;
-        background: grey;
-        display: grid;
-        place-items: center;
+    nav{
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        a{
+            margin-left: 10px;
+            display: block;
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            background: ${props => props.primaryColor};
+            display: grid;
+            place-items: center;
+        }
     }
 `;
 
@@ -112,13 +119,25 @@ const Grade = styled.div`
     }
 `;
 
-const SaveButton = styled.a`
+interface ColorsProps{
+    primaryColor: string;
+    secondaryColor?: string;
+}
+
+const SaveButton = styled.a<ColorsProps>`
     display: grid;
     height: 40px;
     padding: 0 15px 0 15px;
-    background: blue;
+    background: ${props => props.primaryColor};
     place-items: center;
     border-radius: 2px;
+    cursor: pointer;
+    box-shadow: 0 4px ${props => props.secondaryColor};
+
+    &:active{
+        box-shadow: 0 2px ${props => props.secondaryColor};
+        transform: translateY(2px);
+    }
 `;
 
 const Students = styled.div`
@@ -147,11 +166,34 @@ const StudentData = styled.div`
 
     img{
         border-radius: 50%;
-        border: 3px solid green;
-        width: 32px;
-        height: 32px;
+        width: 28px;
+        height: 28px;
         object-fit: cover;
         margin-right: 5px;
+    }
+`;
+
+const SelectionDiv = styled.div`
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+
+    img{
+        width: 250px;
+    }
+
+    nav{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        h3{
+            margin-right: 20px;
+            font-weight: 400;
+            font-family: ${props => props.theme.fonts.secondary};
+            color: ${props => props.theme.colors.light};
+        }
     }
 `;
 
@@ -166,5 +208,6 @@ export {
     Grade,
     SaveButton,
     Students,
-    StudentData
+    StudentData,
+    SelectionDiv
 };

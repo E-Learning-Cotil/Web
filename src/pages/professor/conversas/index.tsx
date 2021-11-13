@@ -73,8 +73,8 @@ export function Conversas() {
 
                 const filteredArray = newArray.filter(item => {
                     const isPresentInSet = uniqueValuesSet.has(item[property]);
-                        uniqueValuesSet.add(item[property]);
-                        return !isPresentInSet;
+                    uniqueValuesSet.add(item[property]);
+                    return !isPresentInSet;
                 })
                 return filteredArray;
             })
@@ -176,10 +176,6 @@ export function Conversas() {
                 primaryColor="#9F18DF"
                 secondaryColor="#6C1795"
             />
-
-            <button onClick={() => console.log(selectedState)}>
-                dwada
-            </button>
 
             <Container>
                 <Title>
