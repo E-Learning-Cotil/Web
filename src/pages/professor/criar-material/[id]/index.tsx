@@ -37,9 +37,10 @@ import {
   Question,
   QuestionAnswer,
   DeleteQuestion,
+  CreateMaterialButton,
 } from "./styles";
 
-export function CriarTeste(props) {
+export function CriarMaterial(props) {
   const {
     query: { id },
   } = useRouter();
@@ -54,29 +55,11 @@ export function CriarTeste(props) {
   const [currentAnswers, setCurrentAnswers] = useState([]);
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
-  const [testName, setTestName] = useState("");
-  const [questions, setQuestions] = useState([]);
+  const [materialName, setMaterialName] = useState("");
+  const [content, setContent] = useState("");
+  const [materialFiles, setMaterialFiles] = useState([]);
 
   const currentQuestionRef = useRef(null);
-
-  function addAnswer() {
-    if (currentAnswer === "") return;
-
-    setCurrentAnswers([...currentAnswers, { texto: currentAnswer }]);
-    setCurrentAnswer("");
-  }
-
-  function removeAnswer(index) {
-    setCurrentAnswers((prevAnswers) => {
-      const updatedAnswers = prevAnswers.filter((answer, filterIndex) => {
-        if (index === filterIndex && index === currentRightAnswer)
-          setCurrentRightAnswer(null);
-        if (index !== filterIndex) return answer;
-      });
-
-      return updatedAnswers;
-    });
-  }
 
   useEffect(() => {
     (async () => {
@@ -98,77 +81,32 @@ export function CriarTeste(props) {
   }, [acceptedFiles]);
 
   function uploadFile() {
-    if (currentQuestionRef.current.innerText === "") {
-      toast.warning("A pergunta não pode ser vazia!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-
-      return;
+    const newMaterialFile = {
+        
     }
 
-    if (currentAnswers.length < 2) {
-      toast.warning("A questão deve ter no mínimo 2 alternativas!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-
-      return;
-    }
-
-    if (currentRightAnswer === null) {
-      toast.warning("Selecione uma resposta para a questão!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-
-      return;
-    }
-
-    const newQuestion = {
-      pergunta: currentQuestionRef.current.innerText,
-      alternativas: currentAnswers,
-      certo: currentRightAnswer,
-      imagem: currentImage,
-    };
-
-    setQuestions([...questions, newQuestion]);
-
-    setCurrentImage(null);
-    setCurrentRightAnswer(null);
-    setCurrentAnswer("");
-    setCurrentAnswers([]);
-    currentQuestionRef.current.innerText = "";
-  }
-
-  function removeQuestion(index) {
-    setQuestions((prevQuestions) => {
-      const updatedQuestions = prevQuestions.filter((question, filterIndex) => {
-        if (index !== filterIndex) return question;
-      });
-
-      return updatedQuestions;
-    });
+    setMaterialFiles([...materialFiles, newMaterialFile]);
+    setContent(currentQuestionRef.current.innerText);
   }
 
   async function createTest() {
-    if (startTime === null) {
-      toast.warning("Selecione uma data de postagem da atividade!", {
+    // if (endTime === null) {
+    //   toast.warning("Selecione uma data de entrega da atividade!", {
+    //     position: "top-right",
+    //     autoClose: 5000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //   });
+
+    //   return;
+    // }
+    setContent(currentQuestionRef.current.innerText);
+
+    if (materialName === "") {
+      toast.warning("Um material deve ter nome!", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -181,57 +119,14 @@ export function CriarTeste(props) {
       return;
     }
 
-    if (endTime === null) {
-      toast.warning("Selecione uma data de entrega da atividade!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-
-      return;
-    }
-
-    if (questions.length <= 0) {
-      toast.warning("Um teste deve ter no mínimo uma pergunta!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-
-      return;
-    }
-
-    if (testName === "") {
-      toast.warning("Um teste deve ter nome!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-
-      return;
-    }
-
-    const newTest = {
+    const newMaterial = {
       idTopico: id,
-      dataInicio: startTime,
-      dataFim: endTime,
-      conteudo: JSON.stringify(questions),
-      nome: testName,
+      data: startTime,
+      conteudo: JSON.stringify(content),
+      nome: materialName,
     };
 
-    const response = await api.post("/testes", newTest);
+    const response = await api.post("/materiais", newMaterial);
 
     toast.success(response.data.message, {
       position: "top-right",
@@ -273,9 +168,8 @@ export function CriarTeste(props) {
           <input
             type="text"
             id="test-name"
-            onChange={(e) => setTestName(e.target.value)}
+            onChange={(e) => setMaterialName(e.target.value)}
           />
-          <button onClick={createTest}>Criar material</button>
         </ContentTitle>
         <Grid>
           <FakeGridDiv>
@@ -310,6 +204,13 @@ export function CriarTeste(props) {
                 </Dropzone>
               </CreateQuestion>
             </FakeGridDiv>
+            <CreateMaterialButton
+              primaryColor={data?.turma.cores.corPrim || "#6D6D6D"}
+              secondaryColor={data?.turma.cores.corSec || "#454545"}
+              onClick={createTest}
+            >
+              Criar
+            </CreateMaterialButton>
           </QuestionsList>
         </Grid>
       </Container>
@@ -319,4 +220,4 @@ export function CriarTeste(props) {
   );
 }
 
-export default withAuthSSG(CriarTeste);
+export default withAuthSSG(CriarMaterial);

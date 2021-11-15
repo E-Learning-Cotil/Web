@@ -73,25 +73,12 @@ const ContentTitle = styled.section<ColorsProps>`
         margin: 0 10px 0 10px;
         border: none;
         border-bottom: 1px solid ${props => props.theme.colors.light};
+        font-family: ${props => props.theme.fonts.primary};
         flex: 1;
         background: transparent;
         border-radius: 0;
         outline: none;
         color: ${props => props.theme.colors.light};
-    }
-
-    button{
-        padding: 5px 20px 5px 20px;
-        border: none;
-        background: ${props => props.primaryColor};
-        color: ${props => props.theme.colors.light};
-        font-family: ${props => props.theme.fonts.primary};
-        box-shadow: 0 4px ${props => props.secondaryColor};
-
-        &:active{
-            box-shadow: 0 2px ${props => props.secondaryColor};
-            transform: translateY(2px);
-        }
     }
 `;
 
@@ -125,7 +112,7 @@ const QuestionTitle = styled.div`
 const QuestionTextarea = styled.div`
     width: calc(100% + 15px);
     height: auto;
-    min-height: 70px;
+    min-height: 105px;
     overflow: auto;
     outline: ${props => props.theme.colors.mediumDark};
     resize: none;
@@ -227,7 +214,7 @@ const CreateButton = styled.button<ColorsProps>`
     border: none;
     border-radius: 4px;
     background: ${props => props.secondaryColor};
-    font-family: ${props => props.theme.fonts.primary};
+    font-family: ${props => props.theme.fonts.secondary};
     font-size: 16px;
     color: ${props => props.theme.colors.light};
     cursor: pointer;
@@ -290,6 +277,24 @@ const DeleteQuestion = styled.div<ColorsProps>`
     cursor: pointer;
 `;
 
+const CreateMaterialButton = styled.button<ColorsProps>`
+    margin-top: 20px;
+    padding: 5px 20px 5px 20px;
+    border: none;
+    background: ${props => props.primaryColor};
+    color: ${props => props.theme.colors.light};
+    font-family: ${props => props.theme.fonts.secondary};
+    font-size: 20px;
+    box-shadow: 0 4px ${props => props.secondaryColor};
+    width: 100%;
+    height: 40px;
+
+    &:active{
+        box-shadow: 0 2px ${props => props.secondaryColor};
+        transform: translateY(2px);
+    }
+`
+
 export {
     Container,
     Title,
@@ -311,5 +316,6 @@ export {
     QuestionsList,
     Question,
     QuestionAnswer,
-    DeleteQuestion
+    DeleteQuestion,
+    CreateMaterialButton
 };
