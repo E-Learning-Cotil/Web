@@ -63,6 +63,7 @@ const ProfilePic = styled("img")<ProfilePicProps>`
 `;
 
 const ProfileButton = styled.button`
+    z-index: 10;
     margin-right: 10%;
     background-color: transparent;
     border: none;
