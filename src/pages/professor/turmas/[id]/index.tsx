@@ -1,13 +1,14 @@
 import Head from "next/head";
 import { useRouter } from 'next/router'
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Header from "../../../../components/Header";
 import Icon from "../../../../components/Icon";
 import Topic from "../../../../components/Topic";
 import { useFetch } from "../../../../hooks/useFetch";
 import withAuthSSG from "../../../../hoc/withAuthSSG";
 import TopicSkeleton from "../../../../components/TopicSkeleton";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Title, Container,ClassName, CreateTopic, CreateTopicButton } from "./styles";
 import ShimmerEffect from "../../../../components/ShimmerEffect";
 import { api } from "../../../../services/api";
@@ -15,29 +16,69 @@ import { api } from "../../../../services/api";
 function TurmaEspecifica(){
     const {query: { id }} = useRouter();
     const [topicTitle, setTopicTitle] = useState(null);
-    const [topicDescription, setTopicDescription] = useState(null);
+    const descriptionRef = useRef(null);
 
     const { data } = useFetch(`/turmas/${id}`);
 
-    useEffect(() => {
-        console.log(data);
-    }, [data])
-
     async function createNewTopic(){
+        console.log("abobrinha");
         const newTopic = {
-            nome : topicTitle,
-            descricao: topicDescription,
+            nome: topicTitle,
+            descricao: descriptionRef.current.innerText,
             idTurma: data.id
         }
 
-        if((topicDescription === null) || (topicTitle === null)) return;
-        
+        if(topicTitle === null){
+            toast.warning("Um tópico precisa de título!", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+
+            return;
+        }
+
+        if(descriptionRef.current.innerText === ""){
+            toast.warning("Um tópico precisa de descrição!", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+
+            return;
+        }
+
         try{
             const { data: responseMessage} = await api.post("/topicos", newTopic);
             console.log(responseMessage);
-        }
-        catch (error){
-            console.log(error);
+            toast.success("Tópico criado com sucesso!", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+        }catch (error){
+            console.log(error.response);
+            toast.error(error.response.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
         }
     }
 
@@ -77,7 +118,8 @@ function TurmaEspecifica(){
 
                     <div>
                         <p>Descrição: </p> 
-                        <div contentEditable >
+                        <div contentEditable 
+                        ref={descriptionRef}>
 
                         </div>
                     </div>
@@ -115,6 +157,7 @@ function TurmaEspecifica(){
                 )
                 }
             </Container>
+            <ToastContainer />
         </div>
     );
 }
