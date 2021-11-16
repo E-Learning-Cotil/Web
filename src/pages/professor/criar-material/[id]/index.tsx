@@ -10,6 +10,7 @@ import { faPlus, faCamera } from "@fortawesome/free-solid-svg-icons";
 
 import withAuthSSG from "../../../../hoc/withAuthSSG";
 import Header from "../../../../components/Header";
+import File from "../../../../components/File";
 import { useFetch } from "../../../../hooks/useFetch";
 import { api } from "../../../../services/api";
 
@@ -40,6 +41,8 @@ import {
   CreateMaterialButton,
 } from "./styles";
 
+import Editor from '../../../../components/Editor';
+
 export function CriarMaterial(props) {
   const {
     query: { id },
@@ -58,8 +61,13 @@ export function CriarMaterial(props) {
   const [materialName, setMaterialName] = useState("");
   const [content, setContent] = useState("");
   const [materialFiles, setMaterialFiles] = useState([]);
+  const [editorLoaded, setEditorLoaded] = useState(false);
 
   const currentQuestionRef = useRef(null);
+
+  useEffect(() => {
+    setEditorLoaded(true);
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -68,28 +76,20 @@ export function CriarMaterial(props) {
 
         formData.append("file", acceptedFiles[0]);
 
-        const { data } = await api.post("/arquivos", formData, {
+        const { data } = await api.post("/arquivos-professor", formData, {
           headers: {
-            "Content-Type": "multipart/form-data",
-            basic_token: process.env.NEXT_PUBLIC_BASIC_TOKEN,
+            "Content-Type": "multipart/form-data"
           },
         });
 
-        setCurrentImage(data.link);
+        console.log(data);
+
+        setMaterialFiles([...materialFiles, data]);
       }
     })();
   }, [acceptedFiles]);
 
-  function uploadFile() {
-    const newMaterialFile = {
-        
-    }
-
-    setMaterialFiles([...materialFiles, newMaterialFile]);
-    setContent(currentQuestionRef.current.innerText);
-  }
-
-  async function createTest() {
+  async function createMaterial() {
     // if (endTime === null) {
     //   toast.warning("Selecione uma data de entrega da atividade!", {
     //     position: "top-right",
@@ -103,7 +103,6 @@ export function CriarMaterial(props) {
 
     //   return;
     // }
-    setContent(currentQuestionRef.current.innerText);
 
     if (materialName === "") {
       toast.warning("Um material deve ter nome!", {
@@ -119,11 +118,27 @@ export function CriarMaterial(props) {
       return;
     }
 
+    if (JSON.stringify(content) === "") {
+        toast.warning("Um material deve ter nome!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+  
+        return;
+      }
+
+    const filteredFiles = materialFiles.map(material => material.idArquivo);
+
     const newMaterial = {
       idTopico: id,
-      data: startTime,
       conteudo: JSON.stringify(content),
       nome: materialName,
+      arquivos: filteredFiles
     };
 
     const response = await api.post("/materiais", newMaterial);
@@ -174,13 +189,14 @@ export function CriarMaterial(props) {
         <Grid>
           <FakeGridDiv>
             <CreateQuestion>
-              <QuestionTitle>
-                <h3>Descrição:</h3>
-                <QuestionTextarea
-                  contentEditable
-                  ref={currentQuestionRef}
-                ></QuestionTextarea>
-              </QuestionTitle>
+            <Editor
+              name="description"
+              onChange={(data) => {
+                setContent(data);
+              }}
+              editorLoaded={editorLoaded}
+              value={content}
+            />
             </CreateQuestion>
           </FakeGridDiv>
 
@@ -193,21 +209,25 @@ export function CriarMaterial(props) {
 
                 <Dropzone {...getRootProps({ className: "dropzone" })}>
                   <input {...getInputProps()} />
-                  <CreateButton
-                    onClick={uploadFile}
-                    primaryColor={data?.turma.cores.corPrim || "#6D6D6D"}
-                    secondaryColor={data?.turma.cores.corSec || "#454545"}
-                  >
-                    <FontAwesomeIcon icon={faPlus} color="#fff" size="1x" />
-                    Postagem
-                  </CreateButton>
+                  <FontAwesomeIcon icon={faCamera} color={"#fff"} size="2x" />
+                  <p>
+                    Solte um arquivo aqui, ou clique <b>aqui</b> para selecionar
+                  </p>
                 </Dropzone>
               </CreateQuestion>
+              {materialFiles.map((material) => (
+                <File
+                  key={material.link}
+                  name={material.name}
+                  color={data?.turma.cores.corSec}
+                  route={material.link}
+                />
+              ))}
             </FakeGridDiv>
             <CreateMaterialButton
               primaryColor={data?.turma.cores.corPrim || "#6D6D6D"}
               secondaryColor={data?.turma.cores.corSec || "#454545"}
-              onClick={createTest}
+              onClick={createMaterial}
             >
               Criar
             </CreateMaterialButton>

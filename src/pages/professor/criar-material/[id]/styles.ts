@@ -95,9 +95,16 @@ const FakeGridDiv = styled.div`
 
 const CreateQuestion = styled.div`
     width: 100%;
+    height: 100%;
     background: ${props => props.theme.colors.mediumDark};
     border-radius: 4px;
     padding: 20px;
+
+    .ck-content{
+    background: #fff;
+    color: #000;
+    min-height: 300px;
+    }
 `;
 
 const QuestionTitle = styled.div`
@@ -113,6 +120,8 @@ const QuestionTextarea = styled.div`
     width: calc(100% + 15px);
     height: auto;
     min-height: 105px;
+    word-wrap: break-word;
+    white-space: normal;
     overflow: auto;
     outline: ${props => props.theme.colors.mediumDark};
     resize: none;
@@ -204,7 +213,14 @@ const Image = styled.div`
 `;
 
 const Dropzone = styled.div`
-
+    margin-top: 15px;
+    width: 100%;
+    height: 100px;
+    border: 2px dashed ${props => props.theme.colors.light};
+    border-radius: 4px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
 `;
 
 const CreateButton = styled.button<ColorsProps>`
