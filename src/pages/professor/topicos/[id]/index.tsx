@@ -127,7 +127,9 @@ function TopicoEspecifico() {
                 )}
 
                 <ItemsBox>
-                    <div>
+                    {
+                        data?.Materiais.length > 0 && (
+                            <div>
                         <h3>Materiais</h3>
                         {!data ? (
                             <section>
@@ -181,7 +183,11 @@ function TopicoEspecifico() {
                             </section>
                         )}
                     </div>
-                    <div>
+                        )
+                    }
+                    {
+                        data?.atividades.length > 0 && (
+                            <div>
                         <h3>Atividades</h3>
                         {!data ? (
                             <section>
@@ -235,7 +241,11 @@ function TopicoEspecifico() {
                             </section>
                         )}
                     </div>
-                    <div>
+                        )
+                    }
+                    {
+                        data?.testes.length > 0 && (
+                            <div>
                         <h3>Testes</h3>
                         {!data ? (
                             <section>
@@ -289,6 +299,8 @@ function TopicoEspecifico() {
                             </section>
                         )}
                     </div>
+                        )
+                    }
                 </ItemsBox>
             </Container>
 
