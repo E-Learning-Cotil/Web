@@ -208,6 +208,7 @@ export function Conversas() {
                                     placeholder="Digite aqui sua mensagem..."
                                     name="message"
                                     onKeyPress={(e) => {if(e.key === 'Enter') sendNewMessage()}}
+                                    autoComplete="off"
                                 />
                                 <button onClick={() => sendNewMessage()}>
                                     <FontAwesomeIcon
