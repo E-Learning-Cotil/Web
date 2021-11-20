@@ -185,7 +185,7 @@ function AtividadeEspecifica(){
                                 />
                                 <h1>Teste já respondido!</h1>
                             </nav>
-                            <p>Nota: {data?.testesAlunos[0]?.nota}</p>
+                            <p>Nota: {Math.round(data?.testesAlunos[0]?.nota * 10) / 10}</p>
                             <Link href={`/aluno/topicos/${data?.topicos.id}`}>
                                 <a>
                                     Voltar ao tópico

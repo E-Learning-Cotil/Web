@@ -223,7 +223,7 @@ function AtividadeEspecifica(){
                             <h3>Envios</h3>
                             {
                                 sended && (
-                                    <p>Nota: {file?.nota || "Sem nota"}</p>
+                                    <p>Nota: {Math.round(file?.nota * 10) / 10 || "Sem nota"}</p>
                                 )
                             }
                         </SendedStatus>
