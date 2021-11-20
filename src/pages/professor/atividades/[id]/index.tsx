@@ -2,7 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-
+import HTMLReactParser from "html-react-parser";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInbox } from '@fortawesome/free-solid-svg-icons';
 
@@ -110,7 +110,7 @@ function AtividadeEspecifica(){
                     </span>
                 ) : (
                     <span>
-                        {data?.conteudo}
+                        {HTMLReactParser(data?.conteudo)}
                     </span>
                 )}
 

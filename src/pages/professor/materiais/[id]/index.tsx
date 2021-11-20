@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { useEffect } from "react";
 import { useRouter } from 'next/router'
+import HTMLReactParser from "html-react-parser";
 
 import Header from "../../../../components/Header";
 import ShimmerEffect from "../../../../components/ShimmerEffect";
@@ -73,7 +74,7 @@ function MaterialEspecifico() {
                     </span>
                 ) : (
                     <span>
-                        {data?.conteudo}
+                        {HTMLReactParser(data?.conteudo)}
                     </span>
                 )}
 

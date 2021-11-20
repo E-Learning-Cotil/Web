@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useDropzone } from 'react-dropzone';
 import { ToastContainer, toast } from 'react-toastify';
 import Loading from 'react-loading';
+import HTMLReactParser from "html-react-parser";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
@@ -177,7 +178,7 @@ function AtividadeEspecifica(){
                     </span>
                 ) : (
                     <span>
-                        {data?.conteudo}
+                        {HTMLReactParser(data?.conteudo)}
                     </span>
                 )}
 
