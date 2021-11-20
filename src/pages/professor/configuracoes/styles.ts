@@ -71,7 +71,7 @@ const ImageDiv = styled.div`
 
 const PropertyTitle = styled.h4`
     font-family: ${props => props.theme.fonts.primary};
-    color: ${props => props.theme.colors.primaryMedium};
+    color: ${props => props.theme.colors.secondaryMedium};
     font-size: 20px;
     `;
 

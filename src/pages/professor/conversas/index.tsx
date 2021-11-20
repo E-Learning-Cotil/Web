@@ -233,7 +233,7 @@ export function Conversas() {
                                             msg={msg.mensagem}
                                             date={msg.data}
                                             isMine={user.role === msg.origem.role}
-                                            color="#009418"
+                                            color="#9F18DF"
                                         />
                                     ))
                                 }

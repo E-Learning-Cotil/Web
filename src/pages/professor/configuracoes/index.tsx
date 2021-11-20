@@ -234,7 +234,7 @@ function Configuracoes() {
             
             {isReadOnly ? (
               <EditButton 
-                background="#0CBE29"
+                background="#9F18DF"
                 type="button" 
                 onClick={updateStudentData}
               >
