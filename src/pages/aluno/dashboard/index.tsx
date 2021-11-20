@@ -95,6 +95,7 @@ export function Dashboard(props) {
                                 <Activity 
                                     key={index}
                                     id={ativ.id}
+                                    type={ativ.tipo}
                                     photo={ativ.tipo === "ATIVIDADE" ? ativ.topico.turma.icone.altLink : ativ.topicos.turma.icone.altLink}
                                     name={ativ.nome}
                                     date={ativ.dataFim}

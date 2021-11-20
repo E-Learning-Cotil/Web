@@ -71,38 +71,6 @@ export function Dashboard(props) {
                 </Link>
             </Navigation>
 
-            {/* <Container>
-                <Title>
-                    <h2>Atividades</h2>
-                    <div></div> 
-                </Title>
-
-                <Group>
-                    {!data ? (
-                        <>
-                            <ActivitySkeleton />
-                            <ActivitySkeleton />
-                            <ActivitySkeleton />
-                            <ActivitySkeleton />
-                            <ActivitySkeleton />
-                            <ActivitySkeleton />
-                        </>
-                    ) : (
-                        data.atividades.map((ativ, index) => ( 
-                                <Activity 
-                                    key={index}
-                                    id={ativ.id}
-                                    photo={ativ.tipo === "ATIVIDADE" ? ativ.topico.turma.icone.altLink : ativ.topicos.turma.icone.altLink}
-                                    name={ativ.nome}
-                                    date={ativ.dataFim}
-                                    color={ativ.tipo === "ATIVIDADE" ? ativ.topico.turma.cores.corPrim : ativ.topicos.turma.cores.corPrim}
-                                />
-                            )
-                        )
-                    ) }
-                </Group>
-            </Container> */}
-
             <Container>
                 <Title>
                     <h2>Suas turmas</h2>
