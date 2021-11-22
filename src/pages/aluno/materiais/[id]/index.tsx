@@ -74,7 +74,7 @@ function MaterialEspecifico() {
                     </span>
                 ) : (
                     <span>
-                        {HTMLReactParser(data?.conteudo)}
+                        {HTMLReactParser(data?.conteudo.substring(1).slice(0,-1))}
                     </span>
                 )}
 
