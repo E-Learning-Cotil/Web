@@ -2,6 +2,8 @@ import styled, {css} from 'styled-components';
 
 interface ContainerProps{
     isSelected: boolean;
+    color: string;
+    secondaryColor: string;
 }
 
 const Container = styled("div")<ContainerProps>`
@@ -15,9 +17,8 @@ const Container = styled("div")<ContainerProps>`
     border-bottom: 1px solid ${props => props.theme.colors.mediumDark};
     cursor: pointer;
 
-    ${props => props.isSelected ? css`
-        background: ${props => props.theme.colors.primaryDark};
-    ` : css`
+    background: ${props => props.color};
+    ${props => !props.isSelected && css`
         background: #161616;
     `}
 
@@ -26,7 +27,7 @@ const Container = styled("div")<ContainerProps>`
     }
 
     &:hover{
-        background: ${props => props.theme.colors.primaryMedium};
+        background: ${props => props.secondaryColor};
     }
 
     img{
@@ -61,7 +62,7 @@ const Container = styled("div")<ContainerProps>`
         top: 5px;
         right: 5px;
         padding: 5px;
-        background: ${props => props.theme.colors.secondaryMedium};
+        background: red;
         font-size: 12px;
         display: flex;
         align-items: center;

@@ -1,27 +1,26 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useRef } from 'react';
 import Head from "next/head";
 
 import { io } from "socket.io-client";
 import { useForm } from 'react-hook-form';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane, faCommentAlt } from '@fortawesome/free-solid-svg-icons';
 
 import withAuthSSG from "../../../hoc/withAuthSSG";
 import Header from "../../../components/Header";
 import Contact from "../../../components/Contact";
+import ContactSkeleton from "../../../components/ContactSkeleton";
 import Message from "../../../components/Message";
 
-import { Container, Title, ChatDiv, Contacts, Messages, MessagesBox, InputBox } from "./styles";
+import { Container, Title, ChatDiv, Contacts, Messages, MessagesBox, InputBox, EmptyMessage } from "./styles";
 import { useEffect } from "react";
 
 import { parseCookies } from "nookies";
 import { AuthContext } from '../../../contexts/AuthContext';
 
-//const socket = io("http://localhost:3334");
-const socket = io("https://elearning-tcc.herokuapp.com/");
+const socket = io(process.env.NEXT_PUBLIC_BACKEND_URL);
 const { 'elearning.token': token } = parseCookies();
 
 export function Conversas() {
@@ -29,48 +28,106 @@ export function Conversas() {
 
     const [conversations, setConversations] = useState([]);
     const [messages, setMessages] = useState([]);
-    const [selected, setSelected] = useState(null);
-    
-    const { register, getValues } = useForm();
+    const [selectedState, setSelectedState] = useState(null);
+
+    const selectedRef = useRef(null);
+    const messageBoxRef = useRef(null);
+
+    const { register, getValues, reset } = useForm();
+
+    function setSelected(value){
+        selectedRef.current = value;
+        setSelectedState(value);
+    }
 
     useEffect(() => {
         socket.on("conversations", setConversations);
         socket.on("previous_messages", setMessages);
         socket.emit("identify", { token });
-        
+        socket.on("new_message", ([data]) => {
+            console.log("Called");
+            console.log(data);
+            setMessages(prevMessages => {
+                if((data.origem.identity === selectedRef.current) || (data.origem.role === "ALUNO")){
+                    return [...prevMessages, data]
+                }else{
+                    playSoundNotification();
+
+                    setConversations((prevConversations) => {
+                        const updatedContacts = prevConversations.map(contact => {
+                            if(contact.rgProfessor === data.origem.identity) {
+                                contact.mensagem = data.mensagem;
+                                contact.data = data.data;
+                                contact.hasNewMsgs = true;
+                            }
+                
+                            return contact;
+                        })
+            
+            
+                        return updatedContacts;
+                    });
+                    return prevMessages;
+                }
+            });
+        });
     }, [])
 
     useEffect(() => {
-        socket.on("new_message", ([data]) => {
-            console.log("Called");
-            setMessages([...messages, data]);
-            //updateConversations(data);
+        setConversations((prevConversations) => {
+            const updatedContacts = prevConversations.map(contact => {
+                if(contact.rgProfessor === selectedRef.current && messages.length > 0) {
+                    contact.mensagem = messages[messages.length-1].mensagem;
+                    contact.data = messages[messages.length-1].data;
+                }
+    
+                return contact;
+            })
+
+            return updatedContacts;
         });
+
+        if(messageBoxRef.current){
+            messageBoxRef.current.scrollTop = messageBoxRef.current.scrollHeight;
+        }
+        console.log(messages);
     }, [messages])
 
-    function updateConversations(data){
-        const updatedContacts = conversations.map(contact => {
-            if(contact.rgProfessor === selected) {
-                contact.mensagem = data.mensagem;
-                contact.data = data.data;
-            }
-
-            return contact;
-        })
-
-        setConversations(updatedContacts);
-    }
-
-
     useEffect(() => {
-        socket.emit("open_chat", {otherUser: selected, token});
-        console.log(selected);
-    }, [selected])
+        socket.emit("open_chat", {otherUser: selectedRef.current, token});
+        setConversations((prevConversations) => {
+            const updatedContacts = prevConversations.map(contact => {
+                if(contact.rgProfessor === selectedRef.current) {
+                    contact.hasNewMsgs = false;
+                }
+    
+                return contact;
+            })
+
+            return updatedContacts;
+        });
+    }, [selectedState])
 
     function sendNewMessage(){
         const {message} = getValues();
 
-        socket.emit("new_message", {message, otherUser: selected, token});
+        socket.emit("new_message", {message, otherUser: selectedRef.current, token});
+
+        reset({ message: '' });
+    }
+
+    function playSoundNotification(){
+        const context = new AudioContext();
+        const oscillator = context.createOscillator();
+        const contextGain = context.createGain();
+    
+        oscillator.connect(contextGain);
+        contextGain.connect(context.destination);
+        oscillator.start(0);
+
+        setTimeout(() => {
+            contextGain.gain.exponentialRampToValueAtTime(0.00001, context.currentTime + 5);
+        }, 250)
     }
 
     return (
@@ -79,7 +136,10 @@ export function Conversas() {
                 <title>Conversas | E-Learning</title>
             </Head>
 
-            <Header />
+            <Header 
+                primaryColor="#4AED64"
+                secondaryColor="#009418"
+            />
 
             <Container>
                 <Title>
@@ -88,55 +148,80 @@ export function Conversas() {
 
                 <ChatDiv>
                     <Contacts>
-                        {conversations.map(contact => (
-                            <Contact 
-                                key={contact.rgProfessor}
-                                id={contact.rgProfessor}
-                                name={contact.professor.nome}
-                                img={contact.professor.foto}
-                                lastMsg={contact.mensagem}
-                                newMsgs={0}
-                                setAsSelected={setSelected}
-                                selectedId={selected}
-                            />
-                        ))}
+                        {
+                            conversations.length <= 0 ? (
+                                <>
+                                    <ContactSkeleton />
+                                    <ContactSkeleton />
+                                    <ContactSkeleton />
+                                    <ContactSkeleton />
+                                    <ContactSkeleton />
+                                    <ContactSkeleton />
+                                    <ContactSkeleton />
+                                    <ContactSkeleton />
+                                    <ContactSkeleton />
+                                </>
+                            ) : conversations.map((contact, index) => (
+                                <Contact 
+                                    key={index}
+                                    id={contact.rgProfessor}
+                                    name={contact.professor.nome}
+                                    img={contact.professor.foto}
+                                    lastMsg={contact.mensagem}
+                                    hasNewMsgs={contact.hasNewMsgs}
+                                    setAsSelected={setSelected}
+                                    selectedId={selectedState}
+                                />
+                            ))
+                        }
                     </Contacts>
-                    <MessagesBox>
-                        {selected === null ? (
-                            <p>Selecione uma conversa</p>
-                        ) : (
-                            <>
-                                <Messages>
-                                    {messages.map((msg, index)=> (
+
+                    {selectedState === null ? (
+                        <EmptyMessage hasLeftBorder>
+                            <img src="/select_conversation_green.svg" alt="Selecione uma conversa" />
+                            <h2>Selecione uma conversa</h2>
+                        </EmptyMessage>
+                    ) : (
+                        <MessagesBox>
+                            <Messages ref={messageBoxRef}>
+                                {
+                                    messages.length === 0 ? (
+                                        <EmptyMessage hasLeftBorder={false}>
+                                            <img src="/start_conversation_green.svg" alt="Começar a conversar" />
+                                            <h2>Começar a conversar</h2>
+                                        </EmptyMessage>
+                                    ) : messages.map((msg, index)=> (
                                         <Message 
                                             key={index}
                                             msg={msg.mensagem}
-                                            isMine={user.role === msg.origem}
+                                            date={msg.data}
+                                            isMine={user.role === msg.origem.role}
+                                            color="#009418"
                                         />
-                                    ))}
-                                </Messages>
-                                <InputBox>
-                                    <input 
-                                        type="text" 
-                                        placeholder="Digite aqui sua mensagem..."
-                                        {...register('message')}
-                                        name="message"
+                                    ))
+                                }
+                            </Messages>
+                            <InputBox>
+                                <input 
+                                    {...register('message')}
+                                    type="text" 
+                                    placeholder="Digite aqui sua mensagem..."
+                                    name="message"
+                                    onKeyPress={(e) => {if(e.key === 'Enter') sendNewMessage()}}
+                                    autoComplete="off"
+                                />
+                                <button onClick={() => sendNewMessage()}>
+                                    <FontAwesomeIcon
+                                        icon={faPaperPlane}
+                                        color="#4AED64"
+                                        size="lg"
                                     />
-                                    <button onClick={() => sendNewMessage()}>
-                                        <FontAwesomeIcon
-                                            icon={faPaperPlane}
-                                            color="#4AED64"
-                                            size="lg"
-                                        />
-                                    </button>
-                                </InputBox>
-                            </>
-                        )}
-                    </MessagesBox>
+                                </button>
+                            </InputBox>
+                        </MessagesBox>
+                    )}
                 </ChatDiv>
             </Container>
-
-            <ToastContainer />
         </div>
     )
 }

@@ -5,14 +5,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Wrapper, ProfilePic, Trapezoid, ProfileButton, Triangle, MiniProfile, ControlButton, ProfileName, ProfileEmail, Text } from "./styles";
 import { faPencilAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 
-export default function Header(){
+interface HeaderProps{
+    primaryColor?: string;
+    secondaryColor?: string;
+}
+
+export default function Header({
+    primaryColor = "#6D6D6D", 
+    secondaryColor = "#454545"
+}: HeaderProps){
     const { signOut, user } = useContext(AuthContext)
     const [ isProfileOpenned, setIsProfileOpenned ] = useState(false)
 
     return (
-        <Wrapper>
-            <Link href="/aluno/dashboard">
-                <Trapezoid>
+        <Wrapper background={secondaryColor}>
+            <Link href={`/${user?.role.toLowerCase()}/dashboard`}>
+                <Trapezoid background={primaryColor}>
                     <div></div> 
                     <img src="/logo_and_name.png" alt="" />
                 </Trapezoid>    
@@ -25,7 +33,7 @@ export default function Header(){
                         <ProfilePic src={user?.foto} alt={user?.nome} hasBorder={false} />
                         <ProfileName>{user?.nome}</ProfileName>
                         <ProfileEmail>{user?.email}</ProfileEmail>
-                        <Link href="/">
+                        <Link href={`/${user?.role.toLowerCase()}/configuracoes`}>
                             {/* <a> */}
                                 <ControlButton>
                                     <FontAwesomeIcon 

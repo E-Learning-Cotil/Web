@@ -1,11 +1,9 @@
 import Link from "next/link";
 import {  Wrapper, ClassDetails } from "./styles";
-import { useState, useEffect } from "react";
-import { useFetch } from "../../hooks/useFetch";
 
-export default function Class({photo, name, id, color, teacher}){
+export default function Class({photo, name, id, color, subtitle}){
     return (
-        <Link href="/">
+        <Link href={`turmas/${id}`}>
             <Wrapper>
                 <ClassDetails
                     backgroundColor={color}
@@ -15,7 +13,7 @@ export default function Class({photo, name, id, color, teacher}){
                     </div>
                     <section>
                         <p>{name}</p>
-                        <span>Professor(a): {teacher}</span>
+                        <span>{subtitle}</span>
                     </section>
                 </ClassDetails>
             </Wrapper>

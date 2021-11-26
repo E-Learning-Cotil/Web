@@ -14,7 +14,12 @@ function Atividades(){
             <Head>
                 <title>Atividades | E-Learning</title>
             </Head>
-            <Header/>
+
+            <Header
+                primaryColor="#4AED64"
+                secondaryColor="#009418"
+            />
+            
             <Container>
                 <Title>
                     <h2>Atividades</h2>
@@ -41,10 +46,11 @@ function Atividades(){
                                 <Activity 
                                     key={index}
                                     id={ativ.id}
-                                    photo={ativ.topico.turma.icone.altLink}
+                                    type={ativ.tipo}
+                                    photo={ativ.tipo === "ATIVIDADE" ? ativ.topico.turma.icone.altLink : ativ.topicos.turma.icone.altLink}
                                     name={ativ.nome}
                                     date={ativ.dataFim}
-                                    color={ativ.topico.turma.cores.corPrim}
+                                    color={ativ.tipo === "ATIVIDADE" ? ativ.topico.turma.cores.corPrim :ativ.topicos.turma.cores.corPrim}
                                 />
                             )
                         )

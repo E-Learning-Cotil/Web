@@ -23,7 +23,10 @@ export function Dashboard(props) {
                 <title>Dashboard | E-Learning</title>
             </Head>
 
-            <Header />
+            <Header 
+                primaryColor="#4AED64"
+                secondaryColor="#009418"
+            />
 
             <Navigation>
                 <Link href="/aluno/atividades">
@@ -92,6 +95,7 @@ export function Dashboard(props) {
                                 <Activity 
                                     key={index}
                                     id={ativ.id}
+                                    type={ativ.tipo}
                                     photo={ativ.tipo === "ATIVIDADE" ? ativ.topico.turma.icone.altLink : ativ.topicos.turma.icone.altLink}
                                     name={ativ.nome}
                                     date={ativ.dataFim}
@@ -129,7 +133,7 @@ export function Dashboard(props) {
                                     name={turma.nome}
                                     color={turma.cores.corPrim}
                                     photo={turma.icone.altLink}
-                                    teacher={turma.professor.nome}
+                                    subtitle={`Professor: ${turma.professor.nome}`}
                                 />
                             )
                         })

@@ -49,7 +49,11 @@ function Boletim(){
             <Head>
                 <title>Boletim | E-Learning</title>
             </Head>
-            <Header />
+
+            <Header 
+                primaryColor="#4AED64"
+                secondaryColor="#009418"
+            />
 
             <Container>
                 <TitleHeader>
@@ -86,9 +90,9 @@ function Boletim(){
                             {boletim.map(({nome, mediaAtividades, mediaTestes, mediaTurma}, index) => (
                                 <tr key={index}>
                                     <td>{nome}</td>
-                                    <td>{mediaAtividades}</td>
-                                    <td>{mediaTestes}</td>
-                                    <td>{mediaTurma}</td>
+                                    <td>{Math.round(mediaAtividades * 10) / 10}</td>
+                                    <td>{Math.round(mediaTestes * 10) / 10}</td>
+                                    <td>{Math.round(mediaTurma * 10) / 10}</td>
                                 </tr>
                             ))}
                         </tbody>

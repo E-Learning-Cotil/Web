@@ -1,7 +1,11 @@
 import styled, { css } from 'styled-components';
 
-const Wrapper = styled.div`
-    background: ${props => props.theme.colors.primaryDark};
+interface WrapperProps{
+    background: string;
+}
+
+const Wrapper = styled("div")<WrapperProps>`
+    background: ${props => props.background};
     width: 100%;
     height: 80px;
     display: flex;
@@ -9,7 +13,11 @@ const Wrapper = styled.div`
     align-items: center;
 `;
 
-const Trapezoid = styled.div`
+interface TrapezoidProps{
+    background: string;
+}
+
+const Trapezoid = styled.div<TrapezoidProps>`
     position: relative;
     margin-left: calc(10% + 25px);
     width: 200px;
@@ -23,7 +31,7 @@ const Trapezoid = styled.div`
         top: 0;
         left: 0;
         transform: skew(-30deg);
-        background: ${props => props.theme.colors.primaryMedium};
+        background: ${props => props.background};
     }
 
     img {
@@ -55,6 +63,7 @@ const ProfilePic = styled("img")<ProfilePicProps>`
 `;
 
 const ProfileButton = styled.button`
+    z-index: 10;
     margin-right: 10%;
     background-color: transparent;
     border: none;

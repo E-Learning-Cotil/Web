@@ -18,11 +18,14 @@ function Turmas(){
                 <title>Turmas | E-Learning</title>
             </Head>
             
-            <Header/>
+            <Header
+                primaryColor="#4AED64"
+                secondaryColor="#009418"
+            />
+
             <Container>
                 <Title>
                     <h2>Turmas</h2>
-                    <div></div> {/* Title tip */}
                 </Title>
 
                 <Group>
@@ -45,7 +48,7 @@ function Turmas(){
                                     name={turma.nome}
                                     color={turma.cores.corPrim}
                                     photo={turma.icone.altLink}
-                                    teacher={turma.professor.nome}
+                                    subtitle={`Professor(a): ${turma.professor.nome}`}
                                 />
                             )
                         })
